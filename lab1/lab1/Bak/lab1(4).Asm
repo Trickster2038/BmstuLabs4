@@ -14,22 +14,21 @@ MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 
          .DATA
          
-A DWORD -30
-B DWORD 21
+A SDWORD -30
+B SDWORD 21
 
 ;A1 SWORD 25
 ;B1 BYTE "Sergey"
 ;B2 BYTE "Сергей"
 
-;X1 WORD 25h
-;X2 BYTE 25h,00
-;X3 SWORD 100101B
-;
-;X4 WORD 2500h
-;X5 SWORD 9472
+X1 WORD 25h
+X2 BYTE 25h,00
+X3 SWORD 100101B
 
-F1 SWORD 65535
-F2 SDWORD 65535
+X4 WORD 2500h
+X5 SWORD 9472
+
+
 
 ;val1 BYTE 255
 ;chart WORD 256
@@ -44,7 +43,7 @@ F2 SDWORD 65535
  
          .DATA?
 inbuf    DB    100 DUP (?)
-X DWORD ?
+X SDWORD ?
 alu BYTE ?
 
          .CODE
@@ -56,11 +55,6 @@ Start:
         add EAX, 5
         sub EAX, B
         mov X, EAX;
-        
-        add F1, 1
-        add F2, 1
-        
-        
 ;         XOR    EAX,EAX
 ;         Invoke StdOut,ADDR MsgExit
 ;         Invoke StdIn,ADDR inbuf,LengthOf inbuf		

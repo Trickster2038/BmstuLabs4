@@ -28,8 +28,7 @@ B DWORD 21
 ;X4 WORD 2500h
 ;X5 SWORD 9472
 
-F1 SWORD 65535
-F2 SDWORD 65535
+
 
 ;val1 BYTE 255
 ;chart WORD 256
@@ -56,11 +55,6 @@ Start:
         add EAX, 5
         sub EAX, B
         mov X, EAX;
-        
-        add F1, 1
-        add F2, 1
-        
-        
 ;         XOR    EAX,EAX
 ;         Invoke StdOut,ADDR MsgExit
 ;         Invoke StdIn,ADDR inbuf,LengthOf inbuf		
