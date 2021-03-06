@@ -1,0 +1,2 @@
+d221a 1 2 kd221a
+.model kd221a D (IS=50u BV=100 EG=1.11)
