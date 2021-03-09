@@ -55,7 +55,8 @@ Start:
 ; 
 ;    Add you statements
 ;
-        mox AX, 5
+mov alu, EAX
+        mov AX, 5
         mov Ax, -5
         mov EAX, A
         add EAX, 5

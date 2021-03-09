@@ -55,6 +55,8 @@ Start:
 ; 
 ;    Add you statements
 ;
+        mov AX, 5
+        mov Ax, -5
         mov EAX, A
         add EAX, 5
         sub EAX, B

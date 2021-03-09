@@ -14,6 +14,8 @@ MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 
          .DATA
          
+A0 WORD 5, -5
+         
 A DWORD -30
 B DWORD 21
 
@@ -53,6 +55,8 @@ Start:
 ; 
 ;    Add you statements
 ;
+        mox AX, 5
+        mov Ax, -5
         mov EAX, A
         add EAX, 5
         sub EAX, B
