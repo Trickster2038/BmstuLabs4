@@ -14,6 +14,19 @@ struct Material
 
 Material materials[500];
 
+void ChangeCost(Material arr[], int n, unsigned short int new_cost) {
+	arr[n].cost = new_cost;
+}
+
+void ChangeAll(Material arr[], int n, unsigned short int new_id, time_t new_date, unsigned short int new_storage,
+	unsigned short int new_number, unsigned short int new_cost) {
+	arr[n].id = new_id;
+	arr[n].date = new_date;
+	arr[n].storage = new_storage;
+	arr[n].number = new_number;
+	arr[n].cost = new_cost;
+}
+
 void fill_adressed(Material inp[]) {
 	for (int i = 0; i < 500; i++) {
 		srand(i);
@@ -74,6 +87,41 @@ int BinarySearch(Material arr[], int n, int cost, Material& result)
 	}
 }
 
+void Merge(Material* A, int first, int last)
+{
+	int middle, start, final, j;
+	Material* mas = new Material[500];
+	middle = (first + last) / 2;
+	start = first; 
+	final = middle + 1; 
+	for (j = first; j <= last; j++) 
+		if ((start <= middle) && ((final > last) || (A[start].cost < A[final].cost)))
+		{
+			mas[j] = A[start];
+			start++;
+		}
+		else
+		{
+			mas[j] = A[final];
+			final++;
+		}
+
+	for (j = first; j <= last; j++) A[j] = mas[j];
+	delete[]mas;
+};
+
+void MergeSort(Material* A, int first, int last)
+{
+	{
+		if (first < last)
+		{
+			MergeSort(A, first, (first + last) / 2); 
+			MergeSort(A, (first + last) / 2 + 1, last);
+			Merge(A, first, last); 
+		}
+	}
+};
+
 unsigned int addrFunc(unsigned int n) {
 	return n;
 }
@@ -89,7 +137,8 @@ int main()
 	std::cout << materials[15].id << " " << materials[15].date << " " << materials[15].cost << "\n";
 	std::cout << sizeof(time_t) << " " << sizeof(short int);
 
-	ShellSort(materials, 500);
+	//ShellSort(materials, 500);
+	MergeSort(materials, 0, 499);
 	std::cout << "\n Sorted cost+id: \n";
 	for (int i = 0; i < 20; i++) std::cout << materials[i].cost << "+" << materials[i].id << " ";
 
