@@ -12,6 +12,7 @@ IncludeLib masm32.lib
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 MsgInp   DB    "Enter number",0AH,0DH,0
+MsgLn DB 0AH,0DH,0
 
          .DATA
 reqA DB 'Input A: ',13,10,0 ; запрос
@@ -39,6 +40,7 @@ Start:
          
          Invoke dwtoa,A,ADDR outstr
          Invoke StdOut,ADDR outstr
+         Invoke StdOut,ADDR MsgLn
          
          
          Invoke StdOut,ADDR MsgExit

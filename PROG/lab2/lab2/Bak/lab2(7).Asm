@@ -19,6 +19,7 @@ buffer DB 10 dup ('0') ; буфер ввода
 
          .DATA?
 inbuf    DB    100 DUP (?)
+outstr DB 10 DUP (?)
 A SDWORD ?
 
          .CODE
@@ -33,6 +34,11 @@ Start:
          Invoke StdIn,ADDR buffer,LengthOf buffer
          Invoke StripLF,ADDR buffer
          Invoke atol,ADDR buffer ;result in EAX
+         
+         mov A, EAX
+         
+         Invoke dwtoa,A,ADDR outstr
+         Invoke StdOut,ADDR string
          
          
          Invoke StdOut,ADDR MsgExit
