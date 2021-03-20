@@ -13,11 +13,12 @@ IncludeLib masm32.lib
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 MsgInp   DB    "Enter number",0AH,0DH,0
 MsgLn DB 0AH,0DH,0
-
-         .DATA
 reqA DB 'Input A: ',13,10,0 ; запрос
 reqB DB 'Input B: ',13,10,0 
 reqK DB 'Input K: ',13,10,0 
+MsgResult DB 'Result of a*b - b^3/(k^2+2): ',13,10,0
+
+         .DATA
 buffer DB 10 dup ('0') ; буфер ввода
 
          .DATA?
@@ -26,6 +27,13 @@ outstr DB 10 DUP (?)
 A SWORD ?
 B SWORD ?
 K SWORD ?
+
+dbgOut SWORD ?
+ab SWORD ?
+K2add2 SWORD ?
+B3 SWORD ?
+fraction SWORD ?
+result SWORD ?
 
          .CODE
 Start:
@@ -52,23 +60,47 @@ Start:
          Invoke atol,ADDR buffer ;result in EAX
          mov dword ptr K, EAX
          
+         mov AX, A
+         imul B     ;DX:AX:=AX*B=A*B
+         mov ab, AX
          
+         mov AX, K
+         imul K    ;DX:AX:=AX*K=K*K
+         add AX, 2
+         mov K2add2, AX
          
-         Invoke dwtoa,A,ADDR outstr
+         mov AX, B
+         imul B    ;DX:AX:=AX*B=B
+         imul B    ;DX:AX:=AX*B=B*B
+         mov B3, AX
+         
+         mov AX, B3
+         cwd ;DX:AX = AX
+         idiv  K2add2 ;AX:=(DX:AX):K2add2
+         mov fraction, AX
+         
+         mov AX, ab
+         add AX, fraction
+         mov result, AX
+         
+;         Invoke dwtoa,A,ADDR outstr
+;         Invoke StdOut,ADDR outstr
+;         Invoke StdOut,ADDR MsgLn
+;         
+;         Invoke dwtoa,B,ADDR outstr
+;         Invoke StdOut,ADDR outstr
+;         Invoke StdOut,ADDR MsgLn
+;         
+;         Invoke dwtoa,K,ADDR outstr
+;         Invoke StdOut,ADDR outstr
+;         Invoke StdOut,ADDR MsgLn
+
+         Invoke StdOut,ADDR MsgResult
+         
+         Invoke dwtoa,result,ADDR outstr
          Invoke StdOut,ADDR outstr
          Invoke StdOut,ADDR MsgLn
-         
-         Invoke dwtoa,B,ADDR outstr
-         Invoke StdOut,ADDR outstr
-         Invoke StdOut,ADDR MsgLn
-         
-         Invoke dwtoa,K,ADDR outstr
-         Invoke StdOut,ADDR outstr
-         Invoke StdOut,ADDR MsgLn
-         
-         
-         
-         
+                
          Invoke StdOut,ADDR MsgExit
          Invoke StdIn,ADDR inbuf,LengthOf inbuf		
 	
