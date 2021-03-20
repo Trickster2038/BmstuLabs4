@@ -1,0 +1,54 @@
+[Project]
+Assembler=masm
+Type=Console App
+Description=conditions
+Backup=$P\Bak\
+Group=1
+GroupExpand=1
+[Files]
+1=lab3.Asm
+2=lab3.Inc
+[MakeFiles]
+0=lab3.rap
+1=lab3.rc
+2=lab3.asm
+3=lab3.obj
+4=lab3.res
+5=lab3.exe
+6=lab3.def
+7=lab3.dll
+8=lab3.txt
+9=lab3.lib
+10=lab3.mak
+11=lab3.hla
+12=lab3.com
+13=lab3.ocx
+14=lab3.idl
+15=lab3.tlb
+16=lab3.sys
+[MakeDef]
+MenuMake=0,1,1,1,1,1,1,1,0,0
+;x=FileToDelete/CheckExistsOnExit,
+;(O)utput/(C)onsole/0,Command,
+;MakeFile1[,MakeFile2[,MakeFile3...]]
+1=4,O,$B\RC.EXE /v,1
+2=3,O,$B\ML.EXE /c /coff /Cp /nologo /I"$I",2
+3=5,O,$B\LINK.EXE /SUBSYSTEM:CONSOLE /RELEASE /VERSION:4.0 /LIBPATH:"$L" /OUT:"$5",3
+4=0,0,,5
+5=rsrc.obj,O,$B\CVTRES.EXE,rsrc.res
+6=*.obj,O,$B\ML.EXE /c /coff /Cp /nologo /I"$I",*.asm
+7=0,0,"$E\OllyDbg\OllyDbg.exe",5
+11=
+12=3,O,$B\ML.EXE /c /coff /Cp /Zi /nologo /I"$I",2
+13=5,O,$B\LINK.EXE /SUBSYSTEM:CONSOLE /DEBUG /VERSION:4.0 /LIBPATH:"$L" /OUT:"$5",3
+14=0,0,,5
+15=
+16=*.obj,O,$B\ML.EXE /c /coff /Cp /nologo /I"$I",*.asm
+17=0,0,"$E\OllyDbg\OllyDbg.exe",5
+Menu=0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0
+[AutoLoad]
+1=1
+[Group]
+Group=Added files,Assembly,Resources,Misc,Modules
+1=2
+2=2
