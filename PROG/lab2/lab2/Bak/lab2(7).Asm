@@ -38,7 +38,7 @@ Start:
          mov A, EAX
          
          Invoke dwtoa,A,ADDR outstr
-         Invoke StdOut,ADDR string
+         Invoke StdOut,ADDR outstr, 0AH,0DH,0
          
          
          Invoke StdOut,ADDR MsgExit

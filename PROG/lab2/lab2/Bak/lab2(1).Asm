@@ -16,7 +16,8 @@ MsgLn DB 0AH,0DH,0
 
          .DATA
 reqA DB 'Input A: ',13,10,0 ; запрос
-reqB DB 'Input B: ',13,10,0 ;
+reqB DB 'Input B: ',13,10,0 
+reqK DB 'Input K: ',13,10,0 
 buffer DB 10 dup ('0') ; буфер ввода
 
          .DATA?
@@ -45,6 +46,14 @@ Start:
          Invoke atol,ADDR buffer ;result in EAX
          mov B, EAX
          
+         Invoke StdOut,ADDR reqK
+         Invoke StdIn,ADDR buffer,LengthOf buffer
+         Invoke StripLF,ADDR buffer
+         Invoke atol,ADDR buffer ;result in EAX
+         mov K, EAX
+         
+         
+         
          Invoke dwtoa,A,ADDR outstr
          Invoke StdOut,ADDR outstr
          Invoke StdOut,ADDR MsgLn
@@ -52,6 +61,12 @@ Start:
          Invoke dwtoa,B,ADDR outstr
          Invoke StdOut,ADDR outstr
          Invoke StdOut,ADDR MsgLn
+         
+         Invoke dwtoa,K,ADDR outstr
+         Invoke StdOut,ADDR outstr
+         Invoke StdOut,ADDR MsgLn
+         
+         
          
          
          Invoke StdOut,ADDR MsgExit
