@@ -42,6 +42,10 @@ Start:
 ;
          ;Invoke StdOut,ADDR MsgInp
          XOR    EAX,EAX
+         
+         mov AX, BX
+         mov AX, 5
+         
          Invoke StdOut,ADDR reqA
          Invoke StdIn,ADDR buffer,LengthOf buffer
          Invoke StripLF,ADDR buffer
@@ -80,7 +84,7 @@ Start:
          mov fraction, AX
          
          mov AX, ab
-         add AX, fraction
+         sub AX, fraction
          mov result, AX
          
 ;         Invoke dwtoa,A,ADDR outstr

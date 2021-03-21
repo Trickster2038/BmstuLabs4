@@ -68,11 +68,8 @@ Start:
          add AX, 2
          mov K2add2, AX
          
-         Invoke dwtoa,K2add2,ADDR outstr
-         Invoke StdOut,ADDR outstr
-         Invoke StdOut,ADDR MsgLn
-         
          mov AX, B
+         imul B    ;DX:AX:=AX*B=B
          imul B    ;DX:AX:=AX*B=B*B
          mov B3, AX
          

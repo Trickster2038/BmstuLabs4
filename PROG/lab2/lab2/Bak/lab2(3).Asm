@@ -16,7 +16,7 @@ MsgLn DB 0AH,0DH,0
 reqA DB 'Input A: ',13,10,0 ; запрос
 reqB DB 'Input B: ',13,10,0 
 reqK DB 'Input K: ',13,10,0 
-MsgResult 'Result of a*b Ц b^3/(k^2+2): ',0AH,0DH,0
+MsgResult DB 'Result of a*b Ц b^3/(k^2+2): ',13,10,0
 
          .DATA
 buffer DB 10 dup ('0') ; буфер ввода
