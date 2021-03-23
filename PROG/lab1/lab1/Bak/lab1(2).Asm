@@ -55,6 +55,7 @@ Start:
 ; 
 ;    Add you statements
 ;
+mov alu, 7
         mov AX, 5
         mov Ax, -5
         mov EAX, A

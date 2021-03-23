@@ -56,15 +56,15 @@ Start:
 ;    Add you statements
 ;
 mov alu, 7
-        mov AX, 5
-        mov Ax, -5
+        ;mov AX, 5
+        ;mov Ax, -5
         mov EAX, A
         add EAX, 5
         sub EAX, B
         mov X, EAX;
         
-        add F1, 1
-        add F2, 1
+        ;add F1, 1
+        ;add F2, 1
         
         
 ;         XOR    EAX,EAX

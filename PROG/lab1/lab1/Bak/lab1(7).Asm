@@ -17,9 +17,10 @@ MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 A DWORD -30
 B DWORD 21
 
-;A1 SWORD 25
-;B1 BYTE "Sergey"
-;B2 BYTE "Сергей"
+A1 SWORD 25
+A2 DWORD -35
+B1 BYTE "Sergey"
+B2 BYTE "Сергей"
 
 ;X1 WORD 25h
 ;X2 BYTE 25h,00
