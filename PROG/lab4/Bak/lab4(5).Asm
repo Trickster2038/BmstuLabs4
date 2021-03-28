@@ -58,11 +58,11 @@ Start:
             inc EBX
             
             mov EAX, EBX
-            cwd ;DX:AX = AX
+            cdq ;DX:AX = AX
             idiv RowLg;AX:=(DX:AX):3
             cmp DX,0
             jne in_row
-                ;Invoke StdOut,ADDR MsgLn
+                Invoke StdOut,ADDR MsgLn
             
             in_row:
             cmp EBX,6

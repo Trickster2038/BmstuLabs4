@@ -44,7 +44,7 @@ Start:
             Invoke atol,ADDR buffer ;result in EAX
             mov Matr[EBX*4], EAX
             inc EBX
-            cmp EBX,3
+            cmp EBX,6
             jne in_cycle
             
          Invoke StdOut,ADDR MsgExit
@@ -58,14 +58,14 @@ Start:
             inc EBX
             
             mov EAX, EBX
-            cdq ;EDX:EAX = EAX
+            cwd ;DX:AX = AX
             idiv RowLg;AX:=(DX:AX):3
             cmp DX,0
             jne in_row
-                Invoke StdOut,ADDR MsgLn
+                ;Invoke StdOut,ADDR MsgLn
             
             in_row:
-            cmp EBX,3
+            cmp EBX,6
             jne out_cycle
             
           

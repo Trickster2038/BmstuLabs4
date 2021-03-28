@@ -14,6 +14,7 @@ MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 reqMatr DB 'Input num: ',13,10,0 
 MsgLn DB 0AH,0DH,0
 MsgSpace DB "    ",0
+RowLg byte 3
 
          .DATA
 
@@ -26,6 +27,7 @@ outstr DB 10 DUP (?)
 Matr SDWORD 25 DUP (?)
 A SWORD ?
 B SWORD ?
+
 
          .CODE
 Start:
@@ -42,7 +44,7 @@ Start:
             Invoke atol,ADDR buffer ;result in EAX
             mov Matr[EBX*4], EAX
             inc EBX
-            cmp EBX,3
+            cmp EBX,6
             jne in_cycle
             
          Invoke StdOut,ADDR MsgExit
@@ -51,10 +53,20 @@ Start:
          out_cycle:
             Invoke dwtoa,Matr[EBX*4],ADDR outstr
             Invoke StdOut,ADDR outstr
-            Invoke StdOut,ADDR MsgLn
+            Invoke StdOut,ADDR MsgSpace
+            
             inc EBX
-            cmp EBX,3
-            jne in_cycle
+            
+            mov EAX, EBX
+            cwd ;DX:AX = AX
+            idiv RowLg;AX:=(DX:AX):3
+            cmp DX,0
+            jne in_row
+                Invoke StdOut,ADDR MsgLn
+            
+            in_row:
+            cmp EBX,6
+            jne out_cycle
             
           
                       

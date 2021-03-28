@@ -15,6 +15,7 @@ reqMatr DB 'Input num: ',13,10,0
 MsgLn DB 0AH,0DH,0
 MsgSpace DB "    ",0
 RowLg WORD 3
+two WORD 2
 
          .DATA
 
@@ -48,6 +49,26 @@ Start:
             jne in_cycle
             
          Invoke StdOut,ADDR MsgExit
+         
+         mov EBX, 0
+         delete_cycle:  
+            mov dword ptr A, EBX
+            mov AX, A
+            cwd ;DX:AX = AX
+            idiv RowLg;AX:=(DX:AX):3  DX = remain
+            
+            add AX, DX
+            cwd ;DX:AX = AX
+            idiv two;AX:=(DX:AX):2   DX = remain
+            
+            cmp DX,0
+            jne odd
+                mov Matr[EBX*4], 0
+            
+            odd: ; x%2 = 1
+            inc EBX
+            cmp EBX,6
+            jne delete_cycle
             
          mov EBX, 0
          out_cycle:

@@ -14,7 +14,7 @@ MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 reqMatr DB 'Input num: ',13,10,0 
 MsgLn DB 0AH,0DH,0
 MsgSpace DB "    ",0
-RowLg byte 3
+RowLg WORD 3
 
          .DATA
 
@@ -57,8 +57,9 @@ Start:
             
             inc EBX
             
-            mov EAX, EBX
-            cwq ;DX:AX = AX
+            mov dword ptr A, EBX
+            mov AX, A
+            cwd ;DX:AX = AX
             idiv RowLg;AX:=(DX:AX):3
             cmp DX,0
             jne in_row
