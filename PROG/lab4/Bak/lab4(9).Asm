@@ -57,7 +57,8 @@ Start:
             
             inc EBX
             
-            mov EAX, EBX
+            mov dword ptr A, EBX
+            mov AX, A
             cwd ;DX:AX = AX
             idiv RowLg;AX:=(DX:AX):3
             cmp DX,0
