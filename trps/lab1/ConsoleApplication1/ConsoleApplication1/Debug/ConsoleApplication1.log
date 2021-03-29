@@ -1,3 +1,4 @@
 ﻿  ConsoleApplication1.cpp
-C:\Users\Trickster2038\Desktop\BmstuLabs4\trps\lab1\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(75): warning C4715: BinarySearch: значение возвращается не при всех путях выполнения
+C:\Users\Trickster2038\Desktop\BmstuLabs4\trps\lab1\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(168,15): warning C4129: : неизвестная escape-последовательность
+C:\Users\Trickster2038\Desktop\BmstuLabs4\trps\lab1\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(102): warning C4715: BinarySearch: значение возвращается не при всех путях выполнения
   ConsoleApplication1.vcxproj -> C:\Users\Trickster2038\Desktop\BmstuLabs4\trps\lab1\ConsoleApplication1\Debug\ConsoleApplication1.exe
