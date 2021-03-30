@@ -12,17 +12,14 @@ IncludeLib masm32.lib
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 ReqStr DB 'Input string: ',13,10,0
-
+glasStr DB 'EYUIOAJ'
+spaceStr DB ' '
 
          .DATA
-glasStr DB 'AEYUIOJ'
-spaceStr DB ' '
 fl_glas byte 0
 fl_space byte 0
 fl_inword byte 0
          .DATA?
-ESIarch dword 0
-EDIarch dword 0
 Cnt dword 10
 glasN dword 10
 inbuf    DB    100 DUP (?)
@@ -47,23 +44,12 @@ Start:
          cycle:
             mov EBX, Cnt
             mov AL, glasStr[EBX]
-            mov ESIarch, ESI;push
-            mov EDIarch, EDI
-            mov EDI, ESI
+            push ESI
             repne scasb ; equals if symb found
-            mov ESI, EDI
-            mov EDI, EDIarch
                 jne skip
-                    ; if glas - copy till space; else -skip
-                    ;pop ESI;pop 
+                    pop ESI 
                     mov AL, spaceStr
-                    cycle2: 
-                        movsb
-                        mov AL, spaceStr
-                        push EDI
-                        scasb
-                        pop EDI
-                        jne cycle2 ; equals if space, else - loop
+                    repne movsb
             skip:    
             mov EBX, Cnt
             cmp EBX, glasN

@@ -15,7 +15,7 @@ ReqStr DB 'Input string: ',13,10,0
 
 
          .DATA
-glasStr DB 'AEYUIOJ'
+glasStr DB 'EYUIOAJ'
 spaceStr DB ' '
 fl_glas byte 0
 fl_space byte 0
@@ -48,11 +48,8 @@ Start:
             mov EBX, Cnt
             mov AL, glasStr[EBX]
             mov ESIarch, ESI;push
-            mov EDIarch, EDI
-            mov EDI, ESI
             repne scasb ; equals if symb found
-            mov ESI, EDI
-            mov EDI, EDIarch
+            mov ESI, ESIarch
                 jne skip
                     ; if glas - copy till space; else -skip
                     ;pop ESI;pop 
