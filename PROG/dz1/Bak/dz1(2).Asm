@@ -13,18 +13,20 @@ IncludeLib masm32.lib
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 ReqStr DB 'Input string: ',13,10,0
 MsgGlas DB 'glasnay found',13,10,0
-MsgSogl DB 'soglasnay found: ',13,10,0
-
-
+MsgSogl DB 'soglasnay found',13,10,0
+Space DB ' '
          .DATA
 glasStr DB 'AEYUIOJaeyuioj'
 spaceStr DB ' '
 fl_glas byte 0
 fl_space byte 0
 fl_inword byte 0
+fl_transfer byte 0
          .DATA?
 ESIarch dword 0
 EDIarch dword 0
+i1 dword 0
+i2 dword 0
 Cnt dword 10
 glasN dword 10
 inbuf    DB    100 DUP (?)
@@ -43,19 +45,41 @@ Start:
          
          lea ESI, str1
          lea EDI, str2
+         mov fl_space, 1 ;test
          
-         mov EBX, 0
+         mov i1, 0
+         mov i2, 0
          lea EDI, glasStr
-         mov AL, str1[EBX]
+         mov AL, str1[i1]
+         mov ECX, LengthOf glasStr
          repne scasb
-            jne skip
-                Invoke StdOut, EDI
+            jne sogl
+                ; glas branch
                 Invoke StdOut,ADDR MsgGlas
+                cmp fl_space, 1
+                jne skip1
+                    ; turn on transfer
+                    mov fl_transfer, 1
+                skip1:
                 jmp merge1
-            skip:
-                Invoke StdOut, EDI
+            sogl:
                 Invoke StdOut,ADDR MsgSogl
             merge1:
+            
+            mov fl_space, 0
+            
+            cmp fl_transfer,1
+            jne copy_end
+                copy_cycle:
+                    lea ESI, str1[i1]
+                    lea EDI, str2[i2]
+                    movsb 
+                    inc i1
+                    inc i2
+                    mov AL, str1[i1]
+                    cmp AL, Space
+                jne copy_cycle
+            copy_end:
             
 ;         mov glasN, LengthOf glasStr ;8
 ;         mov Cnt, 0
