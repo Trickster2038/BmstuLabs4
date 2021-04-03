@@ -36,12 +36,15 @@ ESIarch dword 0
 EDIarch dword 0
 i1 dword 0
 i2 dword 0
+i3 dword 0
+i4 dword 0
 Cnt dword 10
 glasN dword 10
 inbuf    DB    100 DUP (?)
 str1 DB 100 DUP (?)
 str2 DB 100 DUP (?)
-str3 DB 100 DUP (' ')
+str3 DB 100 DUP (?)
+str4 DB 100 DUP (?)
 letter DB ' '
          .CODE
 Start:
@@ -180,12 +183,17 @@ Start:
 ;        add EDI, EAX
 ;        sub EDI, 1
         
+        
+        ; check if legth > 0
         mov ECX, i2
+        sub ECX, 1
         lea edi, str3
         reverse:
-            mov AL, str1[ECX]
+            mov AL, str2[ECX] 
             stosb
         loop reverse
+        mov AL, str2[0] 
+        stosb
         
         
         Invoke StdOut,ADDR MsgSeparator
@@ -199,6 +207,115 @@ Start:
 ;        Invoke StdOut,ADDR MsgExcep1
 ;        excep2:
 ;        Invoke StdOut,ADDR MsgExcep2
+
+mov i3, 0
+mov i4, 0
+
+sogl_cycle:
+         lea EDI, glasStr
+         mov EBX, i3
+         mov AL, str3[EBX]
+         mov ECX, LengthOf glasStr
+         
+         
+         repne scasb
+            jne sogl
+                ; glas branch
+                Invoke StdOut,ADDR MsgGlas
+                cmp fl_space, 1
+                    ; turn on transfer
+                    mov fl_transfer, 1
+                jmp merge1
+            sogl:
+                Invoke StdOut,ADDR MsgSogl
+                mov fl_transfer, 0
+            merge1:
+            
+            mov fl_space, 0
+            
+            cmp fl_transfer,1
+            jne no_copy
+                copy_cycle:
+                    mov EBX, i3
+                    lea ESI, str3[EBX]
+                    mov EBX, i4
+                    lea EDI, str4[EBX]
+                    movsb 
+                    inc i3
+                    inc i4
+                    mov EBX, i3
+                    mov fl_loop, 1
+                    mov AL, str3[EBX]
+                    
+                        cmp AL, 0
+                        jne no_endl_3
+                            mov fl_loop, 0   
+                        no_endl_3:
+                        
+                        cmp AL, Space
+                        jne no_space_3
+                            mov fl_loop, 0    
+                        no_space_3:
+                        
+                    cmp fl_loop, 1
+                je copy_cycle
+                jmp transfer_merge
+                
+            no_copy:
+                skip_cycle:
+                    inc i1
+                    mov EBX, i3
+                    mov AL, str3[EBX]
+                        
+                        cmp AL, 0
+                        jne no_endl_4
+                            mov fl_loop, 0   
+                        no_endl_4:
+                        
+                        cmp AL, Space
+                        jne no_space_4
+                            mov fl_loop, 0    
+                        no_space_4:
+                        
+                    cmp fl_loop, 1
+                je skip_cycle
+            transfer_merge:
+            
+          
+          mov EBX, i4
+          lea ESI, Space
+          lea EDI, str4[EBX]
+          movsb
+          inc i4
+          
+
+          spaces_cycle:
+            inc i3
+            mov EBX, i3
+            mov AL, str3[EBX]
+            mov fl_loop, 1
+               cmp AL, 0
+               jne no_endl_3
+                    mov fl_loop, 0   
+               no_endl_3:
+                        
+               cmp AL, Space
+               je space_branch_1
+                    mov fl_loop, 0    
+               space_branch_1:
+            cmp fl_loop, 1
+          je spaces_cycle
+          
+          ;inc i1
+          mov EBX, i3
+          mov AL, str3[EBX]
+          cmp AL,0        
+          
+        jne sogl_cycle
+        
+        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR str4
+        Invoke StdOut,ADDR MsgSeparator
              
               	
          
