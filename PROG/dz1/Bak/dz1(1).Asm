@@ -11,6 +11,7 @@ IncludeLib masm32.lib
 
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
+MsgEmpty  DB    "Result is empty",0AH,0DH,0
 MsgSeparator  DB    0AH,0DH,"==================",0AH,0DH,0
 MsgSeparator1  DB    0AH,0DH,"===1==============",0AH,0DH,0
 MsgSeparator2  DB    0AH,0DH,"===2==============",0AH,0DH,0
@@ -18,6 +19,8 @@ MsgSeparator3  DB    0AH,0DH,"===3==============",0AH,0DH,0
 MsgSeparator4 DB    0AH,0DH,"===4==============",0AH,0DH,0
 MsgSeparator5 DB    0AH,0DH,"===5==============",0AH,0DH,0
 MsgTraceSg DB    0AH,0DH,"==sogl============",0AH,0DH,0
+MsgTick DB    0AH,0DH,">>>>",0AH,0DH,0
+MsgSep DB    '|',0
 ReqStr DB 'Input string: ',13,10,0
 MsgGlas DB 'glasnay found',13,10,0
 MsgSogl DB 'soglasnay found',13,10,0
@@ -30,6 +33,7 @@ Space DB ' '
 Endl db 0,0,0
 MsgLn db 13,10,0
          .DATA
+log DB ' '
 glasStr DB 'AEYUIOJaeyuioj'
 soglStr DB 'QWRTPSDFGHKLZXCVBNMqwrtpsdfgklzxcvbnm'
 spaceStr DB ' '
@@ -127,6 +131,7 @@ Start:
                     inc i1
                     mov EBX, i1
                     mov AL, str1[EBX]
+                    mov fl_loop, 1 ; skip fl
                         
                         cmp AL, 0
                         jne no_endl_2
@@ -174,11 +179,21 @@ Start:
           
         jne glas_cycle
         
-        
         ;Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
+         lea EDI, str2
+         ;mov EBX, i1
+         mov AL, Space
+         mov ECX, i2
+         repe scasb
+     je empty_str2
+        
         Invoke StdOut,ADDR MsgSeparator1
+        ;Invoke StdOut,ADDR MsgTick
         Invoke StdOut,ADDR str2
+        ;Invoke StdOut,ADDR MsgSep
+        ;Invoke StdOut,ADDR MsgTick
+        ;empty_str2:
           
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        lea EBX, str1
@@ -197,6 +212,10 @@ Start:
         
         ; check if legth > 0
         mov ECX, i2
+        
+        ;Invoke dwtoa,i2,ADDR log
+        ;Invoke StdOut,ADDR log
+        
         sub ECX, 1
         lea edi, str3
         reverse:
@@ -225,7 +244,7 @@ mov i4, 0
 mov fl_transfer, 0
 
 sogl_cycle:
-         lea EDI, spglStr
+         lea EDI, soglStr
          mov EBX, i3
          mov AL, str3[EBX]
          mov ECX, LengthOf soglStr
@@ -279,12 +298,11 @@ sogl_cycle:
                     inc i1
                     mov EBX, i3
                     mov AL, str3[EBX]
-                        
+                      ;skip fl                    
                         cmp AL, 0
                         jne no_endl_5
                             mov fl_loop, 0   
-                        no_endl_5:
-                        
+                        no_endl_5:                        
                         cmp AL, Space
                         jne no_space_4
                             mov fl_loop, 0    
@@ -294,6 +312,7 @@ sogl_cycle:
                 je skip_cycle2
             transfer_merge2:
             
+          mov fl_loop, 1;skip fl
           
           mov EBX, i4
           lea ESI, Space
@@ -374,9 +393,8 @@ sogl_cycle:
                     inc i5
                     inc i6
                     mov EBX, i5
-                    mov fl_loop, 1
-                    mov AL, str5[EBX]
-                    
+                    mov fl_loop, 1 ;cycle fl
+                    mov AL, str5[EBX]               
                         cmp AL, 0
                         jne no_endl_7
                             mov fl_loop, 0   
@@ -424,12 +442,23 @@ sogl_cycle:
        
        ;=============================
        
+       lea EDI, str6
+         ;mov EBX, i1
+         mov AL, Space
+         mov ECX, i6
+         repe scasb
+     je empty_str6
+       
        Invoke StdIn,ADDR inbuf,LengthOf inbuf
        
        Invoke StdOut,ADDR MsgSeparator5
         Invoke StdOut,ADDR str6
         Invoke StdOut,ADDR MsgSeparator
-         
+        jmp exit_point
+     empty_str6:   
+     empty_str2: 
+        Invoke StdOut,ADDR MsgEmpty
+     exit_point:
          Invoke StdOut,ADDR MsgExit
          Invoke StdIn,ADDR inbuf,LengthOf inbuf		
 	

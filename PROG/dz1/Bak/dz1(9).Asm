@@ -11,7 +11,15 @@ IncludeLib masm32.lib
 
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
-MsgSeparator  DB    0AH,0DH,"=================",0AH,0DH,0
+MsgSeparator  DB    0AH,0DH,"==================",0AH,0DH,0
+MsgSeparator1  DB    0AH,0DH,"===1==============",0AH,0DH,0
+MsgSeparator2  DB    0AH,0DH,"===2==============",0AH,0DH,0
+MsgSeparator3  DB    0AH,0DH,"===3==============",0AH,0DH,0
+MsgSeparator4 DB    0AH,0DH,"===4==============",0AH,0DH,0
+MsgSeparator5 DB    0AH,0DH,"===5==============",0AH,0DH,0
+MsgTraceSg DB    0AH,0DH,"==sogl============",0AH,0DH,0
+MsgTick DB    0AH,0DH,">>>>",0AH,0DH,0
+MsgSep DB    '|',0
 ReqStr DB 'Input string: ',13,10,0
 MsgGlas DB 'glasnay found',13,10,0
 MsgSogl DB 'soglasnay found',13,10,0
@@ -25,6 +33,7 @@ Endl db 0,0,0
 MsgLn db 13,10,0
          .DATA
 glasStr DB 'AEYUIOJaeyuioj'
+soglStr DB 'QWRTPSDFGHKLZXCVBNMqwrtpsdfgklzxcvbnm'
 spaceStr DB ' '
 fl_glas byte 0
 fl_space byte 0
@@ -120,6 +129,7 @@ Start:
                     inc i1
                     mov EBX, i1
                     mov AL, str1[EBX]
+                    mov fl_loop, 1 ; skip fl
                         
                         cmp AL, 0
                         jne no_endl_2
@@ -170,8 +180,10 @@ Start:
         
         ;Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
-        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR MsgSeparator1
+        Invoke StdOut,ADDR MsgTick
         Invoke StdOut,ADDR str2
+        Invoke StdOut,ADDR MsgTick
           
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        lea EBX, str1
@@ -201,7 +213,7 @@ Start:
         
         Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
-        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR MsgSeparator2
         Invoke StdOut,ADDR str3
         ;Invoke StdOut,ADDR MsgSeparator
         
@@ -215,24 +227,25 @@ Start:
 
 mov i3, 0
 mov i4, 0
+mov fl_transfer, 0
 
 sogl_cycle:
-         lea EDI, glasStr
+         lea EDI, soglStr
          mov EBX, i3
          mov AL, str3[EBX]
-         mov ECX, LengthOf glasStr
+         mov ECX, LengthOf soglStr
          
          
          repne scasb
-            jne sogl2
+            je sogl2
                 ; glas branch
                 ;Invoke StdOut,ADDR MsgGlas
-                cmp fl_space, 1
-                    ; turn on transfer
+                ; turn on transfer
                     mov fl_transfer, 0
                 jmp merge2
             sogl2:
                 ;Invoke StdOut,ADDR MsgSogl
+                Invoke StdOut,ADDR MsgTraceSg
                 mov fl_transfer, 1
             merge2:
             
@@ -271,12 +284,11 @@ sogl_cycle:
                     inc i1
                     mov EBX, i3
                     mov AL, str3[EBX]
-                        
+                      ;skip fl                    
                         cmp AL, 0
                         jne no_endl_5
                             mov fl_loop, 0   
-                        no_endl_5:
-                        
+                        no_endl_5:                        
                         cmp AL, Space
                         jne no_space_4
                             mov fl_loop, 0    
@@ -286,6 +298,7 @@ sogl_cycle:
                 je skip_cycle2
             transfer_merge2:
             
+          mov fl_loop, 1;skip fl
           
           mov EBX, i4
           lea ESI, Space
@@ -320,7 +333,7 @@ sogl_cycle:
         
         Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
-        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR MsgSeparator3
         Invoke StdOut,ADDR str4
         ;Invoke StdOut,ADDR MsgSeparator
         
@@ -338,7 +351,7 @@ sogl_cycle:
         
         Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
-        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR MsgSeparator4
         Invoke StdOut,ADDR str5
         ;Invoke StdOut,ADDR MsgSeparator
         
@@ -366,9 +379,8 @@ sogl_cycle:
                     inc i5
                     inc i6
                     mov EBX, i5
-                    mov fl_loop, 1
-                    mov AL, str5[EBX]
-                    
+                    mov fl_loop, 1 ;cycle fl
+                    mov AL, str5[EBX]               
                         cmp AL, 0
                         jne no_endl_7
                             mov fl_loop, 0   
@@ -418,7 +430,7 @@ sogl_cycle:
        
        Invoke StdIn,ADDR inbuf,LengthOf inbuf
        
-       Invoke StdOut,ADDR MsgSeparator
+       Invoke StdOut,ADDR MsgSeparator5
         Invoke StdOut,ADDR str6
         Invoke StdOut,ADDR MsgSeparator
          
