@@ -75,13 +75,13 @@ Start:
          repne scasb
             jne sogl
                 ; glas branch
-                Invoke StdOut,ADDR MsgGlas
+                ;Invoke StdOut,ADDR MsgGlas
                 cmp fl_space, 1
                     ; turn on transfer
                     mov fl_transfer, 1
                 jmp merge1
             sogl:
-                Invoke StdOut,ADDR MsgSogl
+                ;Invoke StdOut,ADDR MsgSogl
                 mov fl_transfer, 0
             merge1:
             
@@ -170,8 +170,8 @@ Start:
         
         
         
-        Invoke StdOut,ADDR MsgSeparator
-        Invoke StdOut,ADDR str2
+;        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR str2
           
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        lea EBX, str1
@@ -200,9 +200,9 @@ Start:
         stosb
         
         
-        Invoke StdOut,ADDR MsgSeparator
-        Invoke StdOut,ADDR str3
-        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR str3
+;        Invoke StdOut,ADDR MsgSeparator
         
         
 ;        excep0:
@@ -225,13 +225,13 @@ sogl_cycle:
          repne scasb
             jne sogl2
                 ; glas branch
-                Invoke StdOut,ADDR MsgGlas
+                ;Invoke StdOut,ADDR MsgGlas
                 cmp fl_space, 1
                     ; turn on transfer
                     mov fl_transfer, 0
                 jmp merge2
             sogl2:
-                Invoke StdOut,ADDR MsgSogl
+                ;Invoke StdOut,ADDR MsgSogl
                 mov fl_transfer, 1
             merge2:
             
@@ -317,9 +317,9 @@ sogl_cycle:
           
         jne sogl_cycle
         
-        Invoke StdOut,ADDR MsgSeparator
-        Invoke StdOut,ADDR str4
-        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR str4
+;        Invoke StdOut,ADDR MsgSeparator
         
         
                 ; check if legth > 0
@@ -334,15 +334,16 @@ sogl_cycle:
         stosb
         
         
-        Invoke StdOut,ADDR MsgSeparator
-        Invoke StdOut,ADDR str5
-        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR str5
+;        Invoke StdOut,ADDR MsgSeparator
         
-        mov AX, i4
-        mov i5, AX 
+        mov EAX, i4
+        mov i5, EAX 
              
        ;==============================
        mov i6, 0
+       mov i5, 0
        
        big_spaces_cycle:
          lea EDI, glasStr
@@ -370,9 +371,9 @@ sogl_cycle:
                         no_endl_7:
                         
                         cmp AL, Space
-                        jne no_space_3
+                        jne no_space_5
                             mov fl_loop, 0    
-                        no_space_3:
+                        no_space_5:
                         
                     cmp fl_loop, 1
                 je copy_cycle3
@@ -412,6 +413,7 @@ sogl_cycle:
        ;=============================
        
        Invoke StdOut,ADDR MsgSeparator
+        Invoke StripLF, ADDR str6
         Invoke StdOut,ADDR str6
         Invoke StdOut,ADDR MsgSeparator
          
