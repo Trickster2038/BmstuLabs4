@@ -11,6 +11,7 @@ IncludeLib masm32.lib
 
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
+MsgEmpty  DB    0AH,0DH,"Result is empty",0AH,0DH,0
 MsgSeparator  DB    0AH,0DH,"==================",0AH,0DH,0
 MsgSeparator1  DB    0AH,0DH,"===1==============",0AH,0DH,0
 MsgSeparator2  DB    0AH,0DH,"===2==============",0AH,0DH,0
@@ -178,13 +179,21 @@ Start:
           
         jne glas_cycle
         
-        
         ;Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
+         lea EDI, str2
+         ;mov EBX, i1
+         mov AL, Space
+         mov ECX, i2
+         repe scasb
+     je empty_str2
+        
         Invoke StdOut,ADDR MsgSeparator1
-        Invoke StdOut,ADDR MsgTick
+        ;Invoke StdOut,ADDR MsgTick
         Invoke StdOut,ADDR str2
-        Invoke StdOut,ADDR MsgTick
+        ;Invoke StdOut,ADDR MsgSep
+        ;Invoke StdOut,ADDR MsgTick
+        ;empty_str2:
           
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        lea EBX, str1
@@ -204,8 +213,9 @@ Start:
         ; check if legth > 0
         mov ECX, i2
         
-        Invoke dwtoa,i2,ADDR log
-        Invoke StdOut,ADDR log
+        ;Invoke dwtoa,i2,ADDR log
+        ;Invoke StdOut,ADDR log
+        
         sub ECX, 1
         lea edi, str3
         reverse:
@@ -432,12 +442,23 @@ sogl_cycle:
        
        ;=============================
        
+       lea EDI, str6
+         ;mov EBX, i1
+         mov AL, Space
+         mov ECX, i6
+         repe scasb
+     je empty_str6
+       
        Invoke StdIn,ADDR inbuf,LengthOf inbuf
        
        Invoke StdOut,ADDR MsgSeparator5
         Invoke StdOut,ADDR str6
         Invoke StdOut,ADDR MsgSeparator
-         
+        jmp exit_point
+     empty_str6:   
+     empty_str2: 
+        Invoke StdOut,ADDR MsgEmpty
+     exit_point:
          Invoke StdOut,ADDR MsgExit
          Invoke StdIn,ADDR inbuf,LengthOf inbuf		
 	

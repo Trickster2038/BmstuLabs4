@@ -11,6 +11,7 @@ IncludeLib masm32.lib
 
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
+MsgEmpty  DB    0AH,0DH,"Result is empty",0AH,0DH,0
 MsgSeparator  DB    0AH,0DH,"==================",0AH,0DH,0
 MsgSeparator1  DB    0AH,0DH,"===1==============",0AH,0DH,0
 MsgSeparator2  DB    0AH,0DH,"===2==============",0AH,0DH,0
@@ -171,49 +172,24 @@ Start:
             cmp fl_loop, 1
           je spaces_cycle
           
-          ;inc i1
           mov EBX, i1
           mov AL, str1[EBX]
-          cmp AL,0        
-          
+          cmp AL,0             
         jne glas_cycle
         
-        ;Invoke StdIn,ADDR inbuf,LengthOf inbuf
-        
+        ; empty check
          lea EDI, str2
-         ;mov EBX, i1
          mov AL, Space
-         mov ECX, LengthOf str2
+         mov ECX, i2
          repe scasb
-         je
+         
+     je empty_str2
         
         Invoke StdOut,ADDR MsgSeparator1
-        ;Invoke StdOut,ADDR MsgTick
-        Invoke StdOut,ADDR str2
-        ;Invoke StdOut,ADDR MsgSep
-        ;Invoke StdOut,ADDR MsgTick
-          
-;        Invoke StdOut,ADDR MsgSeparator
-;        lea EBX, str1
-;        add EBX, i1
-;        Invoke StdOut,EBX
+        Invoke StdOut,ADDR str2 
         
-;        std
-;        lea ESI, str2
-;        add ESI, i2
-;        sub ESI, 1
-;        lea EDI, str3
-;        mov EAX, LengthOf str3
-;        add EDI, EAX
-;        sub EDI, 1
-        
-        
-        ; check if legth > 0
+        ; reverse    
         mov ECX, i2
-        
-        ;Invoke dwtoa,i2,ADDR log
-        ;Invoke StdOut,ADDR log
-        
         sub ECX, 1
         lea edi, str3
         reverse:
@@ -223,19 +199,12 @@ Start:
         mov AL, str2[0] 
         stosb
         
-        Invoke StdIn,ADDR inbuf,LengthOf inbuf
-        
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf 
         Invoke StdOut,ADDR MsgSeparator2
         Invoke StdOut,ADDR str3
-        ;Invoke StdOut,ADDR MsgSeparator
         
         
-;        excep0:
-;        Invoke StdOut,ADDR MsgExcep0
-;        excep1:
-;        Invoke StdOut,ADDR MsgExcep1
-;        excep2:
-;        Invoke StdOut,ADDR MsgExcep2
+;sogl on endl handler cycle
 
 mov i3, 0
 mov i4, 0
@@ -251,12 +220,10 @@ sogl_cycle:
          repne scasb
             je sogl2
                 ; glas branch
-                ;Invoke StdOut,ADDR MsgGlas
-                ; turn on transfer
-                    mov fl_transfer, 0
+                ; turn off transfer
+                mov fl_transfer, 0
                 jmp merge2
             sogl2:
-                ;Invoke StdOut,ADDR MsgSogl
                 Invoke StdOut,ADDR MsgTraceSg
                 mov fl_transfer, 1
             merge2:
@@ -440,12 +407,23 @@ sogl_cycle:
        
        ;=============================
        
+       lea EDI, str6
+         ;mov EBX, i1
+         mov AL, Space
+         mov ECX, i6
+         repe scasb
+     je empty_str6
+       
        Invoke StdIn,ADDR inbuf,LengthOf inbuf
        
        Invoke StdOut,ADDR MsgSeparator5
         Invoke StdOut,ADDR str6
         Invoke StdOut,ADDR MsgSeparator
-         
+        jmp exit_point
+     empty_str6:   
+     empty_str2: 
+        Invoke StdOut,ADDR MsgEmpty
+     exit_point:
          Invoke StdOut,ADDR MsgExit
          Invoke StdIn,ADDR inbuf,LengthOf inbuf		
 	
