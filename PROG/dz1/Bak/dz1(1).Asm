@@ -12,10 +12,12 @@ IncludeLib masm32.lib
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 ReqStr DB 'Input string: ',13,10,0
+MsgGlas DB 'glasnay found',13,10,0
+MsgSogl DB 'soglasnay found: ',13,10,0
 
 
          .DATA
-glasStr DB 'AEYUIOJ'
+glasStr DB 'AEYUIOJaeyuioj'
 spaceStr DB ' '
 fl_glas byte 0
 fl_space byte 0
@@ -42,32 +44,46 @@ Start:
          lea ESI, str1
          lea EDI, str2
          
-         mov glasN, LengthOf glasStr ;8
-         mov Cnt, 0
-         cycle:
-            mov EBX, Cnt
-            mov AL, glasStr[EBX]
-            mov ESIarch, ESI;push
-            mov EDIarch, EDI
-            mov EDI, ESI
-            repne scasb ; equals if symb found
-            mov ESI, ESIarch
-            mov EDI, EDIarch
-                jne skip
-                    ; if glas - copy till space; else -skip
-                    ;pop ESI;pop 
-                    mov AL, spaceStr
-                    cycle2: 
-                        movsb
-                        mov AL, spaceStr
-                        push EDI
-                        scasb
-                        pop EDI
-                        jne cycle2 ; equals if space, else - loop
-            skip:    
-            mov EBX, Cnt
-            cmp EBX, glasN
-            jne cycle      
+         mov EBX, 0
+         lea EDI, glasStr
+         mov AL, str1[EBX]
+         mov ECX, LengthOf glasStr
+         repne scasb
+            jne skip
+                Invoke StdOut, EDI
+                Invoke StdOut,ADDR MsgGlas
+                jmp merge1
+            skip:
+                Invoke StdOut, EDI
+                Invoke StdOut,ADDR MsgSogl
+            merge1:
+            
+;         mov glasN, LengthOf glasStr ;8
+;         mov Cnt, 0
+;         cycle:
+;            mov EBX, Cnt
+;            mov AL, glasStr[EBX]
+;            mov ESIarch, ESI;push
+;            mov EDIarch, EDI
+;            mov EDI, ESI
+;            repne scasb ; equals if symb found
+;            mov ESI, EDI
+;            mov EDI, EDIarch
+;                jne skip
+;                    ; if glas - copy till space; else -skip
+;                    ;pop ESI;pop 
+;                    mov AL, spaceStr
+;                    cycle2: 
+;                        movsb
+;                        mov AL, spaceStr
+;                        push EDI
+;                        scasb
+;                        pop EDI
+;                        jne cycle2 ; equals if space, else - loop
+;            skip:    
+;            mov EBX, Cnt
+;            cmp EBX, glasN
+;            jne cycle      
               	
          
          Invoke StdOut,ADDR MsgExit
