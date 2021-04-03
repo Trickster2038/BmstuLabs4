@@ -15,7 +15,13 @@ MsgSeparator  DB    0AH,0DH,"=================",0AH,0DH,0
 ReqStr DB 'Input string: ',13,10,0
 MsgGlas DB 'glasnay found',13,10,0
 MsgSogl DB 'soglasnay found',13,10,0
+
+MsgExcep0 DB 'excep0',13,10,0
+MsgExcep1 DB 'excep1',13,10,0
+MsgExcep2 DB 'excep2',13,10,0
+
 Space DB ' '
+Endl db 0,0,0
          .DATA
 glasStr DB 'AEYUIOJaeyuioj'
 spaceStr DB ' '
@@ -23,6 +29,7 @@ fl_glas byte 0
 fl_space byte 0
 fl_inword byte 0
 fl_transfer byte 0
+fl_loop byte 0
          .DATA?
 ESIarch dword 0
 EDIarch dword 0
@@ -50,10 +57,16 @@ Start:
          mov fl_transfer, 0
          mov i1, 0
          mov i2, 0
+            
+         
+      glas_cycle:
          lea EDI, glasStr
          mov EBX, i1
          mov AL, str1[EBX]
          mov ECX, LengthOf glasStr
+         
+         mov fl_space, 1 ;test
+         
          repne scasb
             jne sogl
                 ; glas branch
@@ -82,41 +95,99 @@ Start:
                     inc i1
                     inc i2
                     mov EBX, i1
+                    mov fl_loop, 1
                     mov AL, str1[EBX]
-                    cmp AL, Space
-                jne copy_cycle
+                    
+                        cmp AL, 0
+                        jne ok1
+                            mov fl_loop, 0   
+                        ok1:
+                        
+                        cmp AL, Space
+                        jne ok2
+                            mov fl_loop, 0    
+                        ok2:
+                        
+                    cmp fl_loop, 1
+                je copy_cycle
                 jmp transfer_merge
+                
             no_copy:
                 skip_cycle:
                     inc i1
                     mov EBX, i1
                     mov AL, str1[EBX]
-                    cmp AL, Space
-                jne skip_cycle
+                        
+                        cmp AL, 0
+                        jne ok3
+                            mov fl_loop, 0   
+                        ok3:
+                        
+                        cmp AL, Space
+                        jne ok4
+                            mov fl_loop, 0    
+                        ok4:
+                        
+                    cmp fl_loop, 1
+                je skip_cycle
             transfer_merge:
             
           
           mov EBX, i2
-          lea EDI, Space
+          lea ESI, Space
           lea EDI, str2[EBX]
           movsb
           inc i2
           
-          Invoke StdOut,ADDR MsgSeparator
-          Invoke StdOut,ADDR str2
-          
+
           spaces_cycle:
             inc i1
             mov EBX, i1
             mov AL, str1[EBX]
-            cmp AL, Space
+            mov fl_loop, 1
+               cmp AL, 0
+               jne ok5
+                    mov fl_loop, 0   
+               ok5:
+                        
+               cmp AL, Space
+               je ok6
+                    mov fl_loop, 0    
+               ok6:
+            cmp fl_loop, 1
           je spaces_cycle
+          
+          ;inc i1
+          mov EBX, i1
+          mov AL, str1[EBX]
+          cmp AL, 0
+          
+          
+          
+          
+        jne glas_cycle
+        
+        
+        
+        
+        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR str2
+          
+        Invoke StdOut,ADDR MsgSeparator
+        lea EBX, str1
+        add EBX, i1
+        Invoke StdOut,EBX
+        
+        excep0:
+        Invoke StdOut,ADDR MsgExcep0
+        excep1:
+        Invoke StdOut,ADDR MsgExcep1
+        excep2:
+        Invoke StdOut,ADDR MsgExcep2
+        
             
             
-          Invoke StdOut,ADDR MsgSeparator
-          lea EBX, str1
-          add EBX, i1
-          Invoke StdOut,EBX
+          
             
 ;         mov glasN, LengthOf glasStr ;8
 ;         mov Cnt, 0

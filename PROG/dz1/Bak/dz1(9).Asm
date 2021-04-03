@@ -11,10 +11,17 @@ IncludeLib masm32.lib
 
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
+MsgSeparator  DB    0AH,0DH,"=================",0AH,0DH,0
 ReqStr DB 'Input string: ',13,10,0
 MsgGlas DB 'glasnay found',13,10,0
 MsgSogl DB 'soglasnay found',13,10,0
+
+MsgExcep0 DB 'excep0',13,10,0
+MsgExcep1 DB 'excep1',13,10,0
+MsgExcep2 DB 'excep2',13,10,0
+
 Space DB ' '
+Endl db 0,0,0
          .DATA
 glasStr DB 'AEYUIOJaeyuioj'
 spaceStr DB ' '
@@ -22,6 +29,7 @@ fl_glas byte 0
 fl_space byte 0
 fl_inword byte 0
 fl_transfer byte 0
+fl_loop byte 0
          .DATA?
 ESIarch dword 0
 EDIarch dword 0
@@ -46,13 +54,19 @@ Start:
          lea ESI, str1
          lea EDI, str2
          mov fl_space, 1 ;test
-         
+         mov fl_transfer, 0
          mov i1, 0
          mov i2, 0
+            
+         
+      glas_cycle:
          lea EDI, glasStr
          mov EBX, i1
          mov AL, str1[EBX]
          mov ECX, LengthOf glasStr
+         
+         mov fl_space, 1 ;test
+         
          repne scasb
             jne sogl
                 ; glas branch
@@ -65,6 +79,7 @@ Start:
                 jmp merge1
             sogl:
                 Invoke StdOut,ADDR MsgSogl
+                mov fl_transfer, 0
             merge1:
             
             mov fl_space, 0
@@ -81,6 +96,8 @@ Start:
                     inc i2
                     mov EBX, i1
                     mov AL, str1[EBX]
+                        cmp AL, 0
+                        je excep0
                     cmp AL, Space
                 jne copy_cycle
                 jmp transfer_merge
@@ -89,21 +106,58 @@ Start:
                     inc i1
                     mov EBX, i1
                     mov AL, str1[EBX]
+                        cmp AL, 0
+                        je excep1
                     cmp AL, Space
                 jne skip_cycle
             transfer_merge:
             
           
           mov EBX, i2
-          lea EDI, Space
+          lea ESI, Space
           lea EDI, str2[EBX]
           movsb
           inc i2
           
-          Invoke StdOut,ADDR str2
-          
+
           spaces_cycle:
-          jne spaces_cycle:
+            inc i1
+            mov EBX, i1
+            mov AL, str1[EBX]
+               cmp AL, 0
+               je excep2
+            cmp AL, Space
+          je spaces_cycle
+          
+          ;inc i1
+          mov EBX, i1
+          mov AL, str1[EBX]
+          cmp AL, 0
+          
+          
+          
+          
+        jne glas_cycle
+        
+        
+        
+        
+        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR str2
+          
+        Invoke StdOut,ADDR MsgSeparator
+        lea EBX, str1
+        add EBX, i1
+        Invoke StdOut,EBX
+        
+        excep0:
+        Invoke StdOut,ADDR MsgExcep0
+        excep1:
+        Invoke StdOut,ADDR MsgExcep1
+        excep2:
+        Invoke StdOut,ADDR MsgExcep2
+        
+            
             
           
             
