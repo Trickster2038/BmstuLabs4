@@ -12,22 +12,12 @@ IncludeLib masm32.lib
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 MsgEmpty  DB    0AH,0DH,"Result is empty",0AH,0DH,0
-MsgSeparator  DB    0AH,0DH,"==================",0AH,0DH,0
-MsgSeparator1  DB    0AH,0DH,"===1==============",0AH,0DH,0
-MsgSeparator2  DB    0AH,0DH,"===2==============",0AH,0DH,0
-MsgSeparator3  DB    0AH,0DH,"===3==============",0AH,0DH,0
-MsgSeparator4 DB    0AH,0DH,"===4==============",0AH,0DH,0
-MsgSeparator5 DB    0AH,0DH,"===5==============",0AH,0DH,0
-MsgTraceSg DB    0AH,0DH,"==sogl============",0AH,0DH,0
-MsgTick DB    0AH,0DH,">>>>",0AH,0DH,0
-MsgSep DB    '|',0
+MsgResult  DB    0AH,0DH,"Result: "
+;MsgSeparator  DB    0AH,0DH,"==================",0AH,0DH,0
 ReqStr DB 'Input string: ',13,10,0
-MsgGlas DB 'glasnay found',13,10,0
-MsgSogl DB 'soglasnay found',13,10,0
+;MsgGlas DB 'glasnay found',13,10,0
+;MsgSogl DB 'soglasnay found',13,10,0
 
-MsgExcep0 DB 'excep0',13,10,0
-MsgExcep1 DB 'excep1',13,10,0
-MsgExcep2 DB 'excep2',13,10,0
 
 Space DB ' '
 Endl db 0,0,0
@@ -37,9 +27,9 @@ log DB ' '
 glasStr DB 'AEYUIOJaeyuioj'
 soglStr DB 'QWRTPSDFGHKLZXCVBNMqwrtpsdfgklzxcvbnm'
 spaceStr DB ' '
-fl_glas byte 0
+;fl_glas byte 0
 fl_space byte 0
-fl_inword byte 0
+;fl_inword byte 0
 fl_transfer byte 0
 fl_loop byte 0
          .DATA?
@@ -86,13 +76,11 @@ Start:
          repne scasb
             jne sogl
                 ; glas branch
-                ;Invoke StdOut,ADDR MsgGlas
                 cmp fl_space, 1
                     ; turn on transfer
                     mov fl_transfer, 1
                 jmp merge1
             sogl:
-                ;Invoke StdOut,ADDR MsgSogl
                 mov fl_transfer, 0
             merge1:
             
@@ -185,8 +173,8 @@ Start:
          
      je empty_str2
         
-        Invoke StdOut,ADDR MsgSeparator1
-        Invoke StdOut,ADDR str2 
+        ;Invoke StdOut,ADDR MsgSeparator1
+        ;Invoke StdOut,ADDR str2 
         
         ; reverse    
         mov ECX, i2
@@ -199,9 +187,9 @@ Start:
         mov AL, str2[0] 
         stosb
         
-        Invoke StdIn,ADDR inbuf,LengthOf inbuf 
-        Invoke StdOut,ADDR MsgSeparator2
-        Invoke StdOut,ADDR str3
+        ;Invoke StdIn,ADDR inbuf,LengthOf inbuf 
+        ;Invoke StdOut,ADDR MsgSeparator2
+        ;Invoke StdOut,ADDR str3
         
         
 ;sogl on endl handler cycle
@@ -310,9 +298,9 @@ sogl_cycle:
           
         jne sogl_cycle
         
-        Invoke StdIn,ADDR inbuf,LengthOf inbuf 
-        Invoke StdOut,ADDR MsgSeparator3
-        Invoke StdOut,ADDR str4
+        ;Invoke StdIn,ADDR inbuf,LengthOf inbuf 
+        ;Invoke StdOut,ADDR MsgSeparator3
+        ;Invoke StdOut,ADDR str4
         
         mov ECX, i4
         sub ECX, 1
@@ -324,9 +312,9 @@ sogl_cycle:
         mov AL, str4[0] 
         stosb
         
-        Invoke StdIn,ADDR inbuf,LengthOf inbuf  
-        Invoke StdOut,ADDR MsgSeparator4
-        Invoke StdOut,ADDR str5
+        ;Invoke StdIn,ADDR inbuf,LengthOf inbuf  
+        ;Invoke StdOut,ADDR MsgSeparator4
+        ;Invoke StdOut,ADDR str5
         
         mov EAX, i4
         mov i5, EAX 
@@ -406,11 +394,11 @@ sogl_cycle:
          repe scasb
      je empty_str6
        
-       Invoke StdIn,ADDR inbuf,LengthOf inbuf
-       
-       Invoke StdOut,ADDR MsgSeparator5
+        ;Invoke StdIn,ADDR inbuf,LengthOf inbuf
+        ;Invoke StdOut,ADDR MsgSeparator5
+        Invoke StdOut,ADDR MsgResult
         Invoke StdOut,ADDR str6
-        Invoke StdOut,ADDR MsgSeparator
+        ;Invoke StdOut,ADDR MsgSeparator
         jmp exit_point
      empty_str6:   
      empty_str2: 

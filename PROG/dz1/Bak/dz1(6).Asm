@@ -220,12 +220,10 @@ sogl_cycle:
          repne scasb
             je sogl2
                 ; glas branch
-                ;Invoke StdOut,ADDR MsgGlas
-                ; turn on transfer
-                    mov fl_transfer, 0
+                ; turn off transfer
+                mov fl_transfer, 0
                 jmp merge2
             sogl2:
-                ;Invoke StdOut,ADDR MsgSogl
                 Invoke StdOut,ADDR MsgTraceSg
                 mov fl_transfer, 1
             merge2:
@@ -265,7 +263,7 @@ sogl_cycle:
                     inc i1
                     mov EBX, i3
                     mov AL, str3[EBX]
-                      ;skip fl                    
+                    
                         cmp AL, 0
                         jne no_endl_5
                             mov fl_loop, 0   
@@ -279,7 +277,8 @@ sogl_cycle:
                 je skip_cycle2
             transfer_merge2:
             
-          mov fl_loop, 1;skip fl
+          ;skip fl - on end to solve 1st elem problem
+          mov fl_loop, 1
           
           mov EBX, i4
           lea ESI, Space
@@ -305,21 +304,16 @@ sogl_cycle:
             cmp fl_loop, 1
           je spaces_cycle2
           
-          ;inc i1
           mov EBX, i3
           mov AL, str3[EBX]
           cmp AL,0        
           
         jne sogl_cycle
         
-        Invoke StdIn,ADDR inbuf,LengthOf inbuf
-        
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf 
         Invoke StdOut,ADDR MsgSeparator3
         Invoke StdOut,ADDR str4
-        ;Invoke StdOut,ADDR MsgSeparator
         
-        
-                ; check if legth > 0
         mov ECX, i4
         sub ECX, 1
         lea edi, str5
@@ -330,16 +324,14 @@ sogl_cycle:
         mov AL, str4[0] 
         stosb
         
-        Invoke StdIn,ADDR inbuf,LengthOf inbuf
-        
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf  
         Invoke StdOut,ADDR MsgSeparator4
         Invoke StdOut,ADDR str5
-        ;Invoke StdOut,ADDR MsgSeparator
         
         mov EAX, i4
         mov i5, EAX 
              
-       ;==============================
+       ; removing additional spaces cycle
        mov i6, 0
        mov i5, 0
        
@@ -347,7 +339,7 @@ sogl_cycle:
          lea EDI, glasStr
          mov EBX, i5
          mov AL, str5[EBX]
-         mov ECX, LengthOf glasStr
+         ;mov ECX, LengthOf glasStr
          
             mov fl_space, 0
             
@@ -380,8 +372,7 @@ sogl_cycle:
           lea ESI, Space
           lea EDI, str6[EBX]
           movsb
-          inc i6
-          
+          inc i6      
 
           spaces_cycle3:
             inc i5
@@ -400,7 +391,6 @@ sogl_cycle:
             cmp fl_loop, 1
           je spaces_cycle3
           
-          ;inc i1
           mov EBX, i5
           mov AL, str5[EBX]
           cmp AL,0        
@@ -409,16 +399,16 @@ sogl_cycle:
        
        ;=============================
        
-       lea EDI, str6
-         ;mov EBX, i1
+         ; empty check   
+         lea EDI, str6
          mov AL, Space
          mov ECX, i6
          repe scasb
      je empty_str6
        
-       Invoke StdIn,ADDR inbuf,LengthOf inbuf
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
        
-       Invoke StdOut,ADDR MsgSeparator5
+        Invoke StdOut,ADDR MsgSeparator5
         Invoke StdOut,ADDR str6
         Invoke StdOut,ADDR MsgSeparator
         jmp exit_point

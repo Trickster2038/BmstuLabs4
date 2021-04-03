@@ -12,6 +12,7 @@ IncludeLib masm32.lib
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 MsgEmpty  DB    0AH,0DH,"Result is empty",0AH,0DH,0
+MsgResult  DB    0AH,0DH,"Result: "
 MsgSeparator  DB    0AH,0DH,"==================",0AH,0DH,0
 MsgSeparator1  DB    0AH,0DH,"===1==============",0AH,0DH,0
 MsgSeparator2  DB    0AH,0DH,"===2==============",0AH,0DH,0
@@ -304,21 +305,16 @@ sogl_cycle:
             cmp fl_loop, 1
           je spaces_cycle2
           
-          ;inc i1
           mov EBX, i3
           mov AL, str3[EBX]
           cmp AL,0        
           
         jne sogl_cycle
         
-        Invoke StdIn,ADDR inbuf,LengthOf inbuf
-        
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf 
         Invoke StdOut,ADDR MsgSeparator3
         Invoke StdOut,ADDR str4
-        ;Invoke StdOut,ADDR MsgSeparator
         
-        
-                ; check if legth > 0
         mov ECX, i4
         sub ECX, 1
         lea edi, str5
@@ -329,16 +325,14 @@ sogl_cycle:
         mov AL, str4[0] 
         stosb
         
-        Invoke StdIn,ADDR inbuf,LengthOf inbuf
-        
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf  
         Invoke StdOut,ADDR MsgSeparator4
         Invoke StdOut,ADDR str5
-        ;Invoke StdOut,ADDR MsgSeparator
         
         mov EAX, i4
         mov i5, EAX 
              
-       ;==============================
+       ; removing additional spaces cycle
        mov i6, 0
        mov i5, 0
        
@@ -346,7 +340,7 @@ sogl_cycle:
          lea EDI, glasStr
          mov EBX, i5
          mov AL, str5[EBX]
-         mov ECX, LengthOf glasStr
+         ;mov ECX, LengthOf glasStr
          
             mov fl_space, 0
             
@@ -379,8 +373,7 @@ sogl_cycle:
           lea ESI, Space
           lea EDI, str6[EBX]
           movsb
-          inc i6
-          
+          inc i6      
 
           spaces_cycle3:
             inc i5
@@ -399,7 +392,6 @@ sogl_cycle:
             cmp fl_loop, 1
           je spaces_cycle3
           
-          ;inc i1
           mov EBX, i5
           mov AL, str5[EBX]
           cmp AL,0        
@@ -408,18 +400,17 @@ sogl_cycle:
        
        ;=============================
        
-       lea EDI, str6
-         ;mov EBX, i1
+         ; empty check   
+         lea EDI, str6
          mov AL, Space
          mov ECX, i6
          repe scasb
      je empty_str6
        
-       Invoke StdIn,ADDR inbuf,LengthOf inbuf
-       
-       Invoke StdOut,ADDR MsgSeparator5
+        ;Invoke StdIn,ADDR inbuf,LengthOf inbuf
+        ;Invoke StdOut,ADDR MsgSeparator5
         Invoke StdOut,ADDR str6
-        Invoke StdOut,ADDR MsgSeparator
+        ;Invoke StdOut,ADDR MsgSeparator
         jmp exit_point
      empty_str6:   
      empty_str2: 
