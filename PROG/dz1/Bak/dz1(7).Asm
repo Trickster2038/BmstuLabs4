@@ -48,8 +48,10 @@ Start:
          mov fl_space, 1 ;test
          
          mov i1, 0
+         mov i2, 0
          lea EDI, glasStr
-         mov AL, str1[i1]
+         mov EBX, i1
+         mov AL, str1[EBX]
          mov ECX, LengthOf glasStr
          repne scasb
             jne sogl
@@ -66,13 +68,42 @@ Start:
             merge1:
             
             mov fl_space, 0
+            
             cmp fl_transfer,1
-            jne copy_end
+            jne no_copy
                 copy_cycle:
-                    lea ESI, str1
-                    lea EDI, str2
+                    mov EBX, i1
+                    lea ESI, str1[EBX]
+                    mov EBX, i2
+                    lea EDI, str2[EBX]
+                    movsb 
+                    inc i1
+                    inc i2
+                    mov EBX, i1
+                    mov AL, str1[EBX]
+                    cmp AL, Space
                 jne copy_cycle
-            copy_end:
+                jmp transfer_merge
+            no_copy:
+                skip_cycle:
+                    inc i1
+                    mov EBX, i1
+                    mov AL, str1[EBX]
+                    cmp AL, Space
+                jne skip_cycle
+            transfer_merge:
+            
+          
+          mov EBX, i2
+          lea EDI, Space
+          lea EDI, str2[EBX]
+          movsb
+          inc i2
+          
+          spaces_cycle:
+          jne spaces_cycle:
+            
+          Invoke StdOut,ADDR str2
             
 ;         mov glasN, LengthOf glasStr ;8
 ;         mov Cnt, 0

@@ -11,6 +11,7 @@ IncludeLib masm32.lib
 
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
+MsgSeparator  DB    0AH,0DH,"=================",0AH,0DH,0
 ReqStr DB 'Input string: ',13,10,0
 MsgGlas DB 'glasnay found',13,10,0
 MsgSogl DB 'soglasnay found',13,10,0
@@ -70,7 +71,7 @@ Start:
             mov fl_space, 0
             
             cmp fl_transfer,1
-            jne copy_end
+            jne no_copy
                 copy_cycle:
                     mov EBX, i1
                     lea ESI, str1[EBX]
@@ -83,9 +84,38 @@ Start:
                     mov AL, str1[EBX]
                     cmp AL, Space
                 jne copy_cycle
-            copy_end:
+                jmp transfer_merge
+            no_copy:
+                skip_cycle:
+                    inc i1
+                    mov EBX, i1
+                    mov AL, str1[EBX]
+                    cmp AL, Space
+                jne skip_cycle
+            transfer_merge:
             
+          
+          mov EBX, i2
+          lea EDI, Space
+          lea EDI, str2[EBX]
+          movsb
+          inc i2
+          
+          Invoke StdOut,ADDR MsgSeparator
           Invoke StdOut,ADDR str2
+          
+          spaces_cycle:
+            inc i1
+            mov EBX, i1
+            mov AL, str1[EBX]
+            cmp AL, Space
+          je spaces_cycle
+            
+            
+          Invoke StdOut,ADDR MsgSeparator
+          lea EBX, str1
+          add EBX, i1
+          Invoke StdOut,EBX
             
 ;         mov glasN, LengthOf glasStr ;8
 ;         mov Cnt, 0
