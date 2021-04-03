@@ -146,14 +146,14 @@ Start:
             mov AL, str1[EBX]
             mov fl_loop, 1
                cmp AL, 0
-               jne ok3
+               jne ok5
                     mov fl_loop, 0   
-               ok3:
+               ok5:
                         
                cmp AL, Space
-               je ok4
+               je ok6
                     mov fl_loop, 0    
-               ok4:
+               ok6:
             cmp fl_loop, 1
           je spaces_cycle
           
@@ -178,12 +178,12 @@ Start:
         add EBX, i1
         Invoke StdOut,EBX
         
-        excep0:
-        Invoke StdOut,ADDR MsgExcep0
-        excep1:
-        Invoke StdOut,ADDR MsgExcep1
-        excep2:
-        Invoke StdOut,ADDR MsgExcep2
+;        excep0:
+;        Invoke StdOut,ADDR MsgExcep0
+;        excep1:
+;        Invoke StdOut,ADDR MsgExcep1
+;        excep2:
+;        Invoke StdOut,ADDR MsgExcep2
         
             
             

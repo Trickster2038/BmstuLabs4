@@ -144,13 +144,14 @@ Start:
             inc i1
             mov EBX, i1
             mov AL, str1[EBX]
+            mov fl_loop, 1
                cmp AL, 0
                jne ok3
                     mov fl_loop, 0   
                ok3:
                         
                cmp AL, Space
-               jne ok4
+               je ok4
                     mov fl_loop, 0    
                ok4:
             cmp fl_loop, 1
