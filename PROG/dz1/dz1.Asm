@@ -168,7 +168,7 @@ Start:
         jne glas_cycle
         
         
-        
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
         Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str2
@@ -199,6 +199,7 @@ Start:
         mov AL, str2[0] 
         stosb
         
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
         Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str3
@@ -317,6 +318,8 @@ sogl_cycle:
           
         jne sogl_cycle
         
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
+        
         Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str4
         Invoke StdOut,ADDR MsgSeparator
@@ -333,6 +336,7 @@ sogl_cycle:
         mov AL, str4[0] 
         stosb
         
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
         Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str5
@@ -411,6 +415,8 @@ sogl_cycle:
         jne big_spaces_cycle
        
        ;=============================
+       
+       Invoke StdIn,ADDR inbuf,LengthOf inbuf
        
        Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str6

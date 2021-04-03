@@ -75,13 +75,13 @@ Start:
          repne scasb
             jne sogl
                 ; glas branch
-                Invoke StdOut,ADDR MsgGlas
+                ;Invoke StdOut,ADDR MsgGlas
                 cmp fl_space, 1
                     ; turn on transfer
                     mov fl_transfer, 1
                 jmp merge1
             sogl:
-                Invoke StdOut,ADDR MsgSogl
+                ;Invoke StdOut,ADDR MsgSogl
                 mov fl_transfer, 0
             merge1:
             
@@ -225,13 +225,13 @@ sogl_cycle:
          repne scasb
             jne sogl2
                 ; glas branch
-                Invoke StdOut,ADDR MsgGlas
+                ;Invoke StdOut,ADDR MsgGlas
                 cmp fl_space, 1
                     ; turn on transfer
                     mov fl_transfer, 0
                 jmp merge2
             sogl2:
-                Invoke StdOut,ADDR MsgSogl
+                ;Invoke StdOut,ADDR MsgSogl
                 mov fl_transfer, 1
             merge2:
             
@@ -333,7 +333,7 @@ sogl_cycle:
         mov AL, str4[0] 
         stosb
         
-        
+        Invoke StripLF, ADDR str5
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        Invoke StdOut,ADDR str5
 ;        Invoke StdOut,ADDR MsgSeparator

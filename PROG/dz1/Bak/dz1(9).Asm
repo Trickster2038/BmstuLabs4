@@ -170,8 +170,8 @@ Start:
         
         
         
-        Invoke StdOut,ADDR MsgSeparator
-        Invoke StdOut,ADDR str2
+;        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR str2
           
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        lea EBX, str1
@@ -200,9 +200,9 @@ Start:
         stosb
         
         
-        Invoke StdOut,ADDR MsgSeparator
-        Invoke StdOut,ADDR str3
-        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR str3
+;        Invoke StdOut,ADDR MsgSeparator
         
         
 ;        excep0:
@@ -317,9 +317,9 @@ sogl_cycle:
           
         jne sogl_cycle
         
-        Invoke StdOut,ADDR MsgSeparator
-        Invoke StdOut,ADDR str4
-        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR str4
+;        Invoke StdOut,ADDR MsgSeparator
         
         
                 ; check if legth > 0
@@ -334,9 +334,9 @@ sogl_cycle:
         stosb
         
         
-        Invoke StdOut,ADDR MsgSeparator
-        Invoke StdOut,ADDR str5
-        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR MsgSeparator
+;        Invoke StdOut,ADDR str5
+;        Invoke StdOut,ADDR MsgSeparator
         
         mov EAX, i4
         mov i5, EAX 

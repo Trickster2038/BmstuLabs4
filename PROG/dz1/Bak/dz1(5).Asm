@@ -317,6 +317,7 @@ sogl_cycle:
           
         jne sogl_cycle
         
+        Invoke StripLF, ADDR str4
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        Invoke StdOut,ADDR str4
 ;        Invoke StdOut,ADDR MsgSeparator

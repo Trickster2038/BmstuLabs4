@@ -343,6 +343,7 @@ sogl_cycle:
              
        ;==============================
        mov i6, 0
+       mov i5, 0
        
        big_spaces_cycle:
          lea EDI, glasStr
