@@ -59,7 +59,6 @@ Start:
          
          Invoke StdOut,ADDR ReqStr
          Invoke StdIn,ADDR str1,LengthOf str1
-         Invoke StripLF, ADDR str1
          
          mov fl_transfer, 0
          mov i1, 0
@@ -170,7 +169,7 @@ Start:
         
         
         
-        Invoke StripLF, ADDR str2
+        
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        Invoke StdOut,ADDR str2
           
@@ -200,7 +199,7 @@ Start:
         mov AL, str2[0] 
         stosb
         
-        Invoke StripLF, ADDR str3
+        
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        Invoke StdOut,ADDR str3
 ;        Invoke StdOut,ADDR MsgSeparator
@@ -318,7 +317,6 @@ sogl_cycle:
           
         jne sogl_cycle
         
-        Invoke StripLF, ADDR str4
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        Invoke StdOut,ADDR str4
 ;        Invoke StdOut,ADDR MsgSeparator
@@ -335,7 +333,7 @@ sogl_cycle:
         mov AL, str4[0] 
         stosb
         
-        Invoke StripLF, ADDR str5
+        
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        Invoke StdOut,ADDR str5
 ;        Invoke StdOut,ADDR MsgSeparator

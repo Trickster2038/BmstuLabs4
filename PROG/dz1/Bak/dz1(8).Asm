@@ -317,6 +317,7 @@ sogl_cycle:
           
         jne sogl_cycle
         
+        Invoke StripLF, ADDR str4
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        Invoke StdOut,ADDR str4
 ;        Invoke StdOut,ADDR MsgSeparator
@@ -333,7 +334,7 @@ sogl_cycle:
         mov AL, str4[0] 
         stosb
         
-        Invoke StripLF, ADDR str5
+        
 ;        Invoke StdOut,ADDR MsgSeparator
 ;        Invoke StdOut,ADDR str5
 ;        Invoke StdOut,ADDR MsgSeparator

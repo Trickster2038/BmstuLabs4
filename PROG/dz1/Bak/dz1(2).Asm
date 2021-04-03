@@ -75,13 +75,13 @@ Start:
          repne scasb
             jne sogl
                 ; glas branch
-                Invoke StdOut,ADDR MsgGlas
+                ;Invoke StdOut,ADDR MsgGlas
                 cmp fl_space, 1
                     ; turn on transfer
                     mov fl_transfer, 1
                 jmp merge1
             sogl:
-                Invoke StdOut,ADDR MsgSogl
+                ;Invoke StdOut,ADDR MsgSogl
                 mov fl_transfer, 0
             merge1:
             
@@ -168,7 +168,7 @@ Start:
         jne glas_cycle
         
         
-        
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
         Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str2
@@ -199,6 +199,7 @@ Start:
         mov AL, str2[0] 
         stosb
         
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
         Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str3
@@ -225,13 +226,13 @@ sogl_cycle:
          repne scasb
             jne sogl2
                 ; glas branch
-                Invoke StdOut,ADDR MsgGlas
+                ;Invoke StdOut,ADDR MsgGlas
                 cmp fl_space, 1
                     ; turn on transfer
                     mov fl_transfer, 0
                 jmp merge2
             sogl2:
-                Invoke StdOut,ADDR MsgSogl
+                ;Invoke StdOut,ADDR MsgSogl
                 mov fl_transfer, 1
             merge2:
             
@@ -317,6 +318,8 @@ sogl_cycle:
           
         jne sogl_cycle
         
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
+        
         Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str4
         Invoke StdOut,ADDR MsgSeparator
@@ -333,6 +336,7 @@ sogl_cycle:
         mov AL, str4[0] 
         stosb
         
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
         Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str5
@@ -343,6 +347,7 @@ sogl_cycle:
              
        ;==============================
        mov i6, 0
+       mov i5, 0
        
        big_spaces_cycle:
          lea EDI, glasStr
@@ -410,6 +415,8 @@ sogl_cycle:
         jne big_spaces_cycle
        
        ;=============================
+       
+       Invoke StdIn,ADDR inbuf,LengthOf inbuf
        
        Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str6
