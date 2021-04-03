@@ -57,7 +57,7 @@ Start:
          mov fl_transfer, 0
          mov i1, 0
          mov i2, 0
-            
+         cld   
          
       glas_cycle:
          lea EDI, glasStr
@@ -160,10 +160,7 @@ Start:
           ;inc i1
           mov EBX, i1
           mov AL, str1[EBX]
-          cmp AL, 0
-          
-          
-          
+          cmp AL,0        
           
         jne glas_cycle
         
@@ -178,12 +175,12 @@ Start:
         add EBX, i1
         Invoke StdOut,EBX
         
-        excep0:
-        Invoke StdOut,ADDR MsgExcep0
-        excep1:
-        Invoke StdOut,ADDR MsgExcep1
-        excep2:
-        Invoke StdOut,ADDR MsgExcep2
+;        excep0:
+;        Invoke StdOut,ADDR MsgExcep0
+;        excep1:
+;        Invoke StdOut,ADDR MsgExcep1
+;        excep2:
+;        Invoke StdOut,ADDR MsgExcep2
         
             
             

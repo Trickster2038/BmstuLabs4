@@ -95,21 +95,41 @@ Start:
                     inc i1
                     inc i2
                     mov EBX, i1
+                    mov fl_loop, 1
                     mov AL, str1[EBX]
+                    
                         cmp AL, 0
-                        je excep0
-                    cmp AL, Space
-                jne copy_cycle
+                        jne ok1
+                            mov fl_loop, 0   
+                        ok1:
+                        
+                        cmp AL, Space
+                        jne ok2
+                            mov fl_loop, 0    
+                        ok2:
+                        
+                    cmp fl_loop, 1
+                je copy_cycle
                 jmp transfer_merge
+                
             no_copy:
                 skip_cycle:
                     inc i1
                     mov EBX, i1
                     mov AL, str1[EBX]
+                        
                         cmp AL, 0
-                        je excep1
-                    cmp AL, Space
-                jne skip_cycle
+                        jne ok1
+                            mov fl_loop, 0   
+                        ok1:
+                        
+                        cmp AL, Space
+                        jne ok2
+                            mov fl_loop, 0    
+                        ok2:
+                        
+                    cmp fl_loop, 1
+                je skip_cycle
             transfer_merge:
             
           

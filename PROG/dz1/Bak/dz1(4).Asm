@@ -144,15 +144,16 @@ Start:
             inc i1
             mov EBX, i1
             mov AL, str1[EBX]
+            mov fl_loop, 1
                cmp AL, 0
-               jne ok3
+               jne ok5
                     mov fl_loop, 0   
-               ok3:
+               ok5:
                         
                cmp AL, Space
-               jne ok4
+               je ok6
                     mov fl_loop, 0    
-               ok4:
+               ok6:
             cmp fl_loop, 1
           je spaces_cycle
           

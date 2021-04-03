@@ -51,13 +51,10 @@ Start:
          Invoke StdOut,ADDR ReqStr
          Invoke StdIn,ADDR str1,LengthOf str1
          
-         lea ESI, str1
-         lea EDI, str2
-         mov fl_space, 1 ;test
          mov fl_transfer, 0
          mov i1, 0
          mov i2, 0
-            
+         cld   
          
       glas_cycle:
          lea EDI, glasStr
@@ -65,17 +62,14 @@ Start:
          mov AL, str1[EBX]
          mov ECX, LengthOf glasStr
          
-         mov fl_space, 1 ;test
          
          repne scasb
             jne sogl
                 ; glas branch
                 Invoke StdOut,ADDR MsgGlas
                 cmp fl_space, 1
-                jne skip1
                     ; turn on transfer
                     mov fl_transfer, 1
-                skip1:
                 jmp merge1
             sogl:
                 Invoke StdOut,ADDR MsgSogl
@@ -160,10 +154,7 @@ Start:
           ;inc i1
           mov EBX, i1
           mov AL, str1[EBX]
-          cmp AL, 0
-          
-          
-          
+          cmp AL,0        
           
         jne glas_cycle
         
