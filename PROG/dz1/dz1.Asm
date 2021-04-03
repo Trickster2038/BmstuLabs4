@@ -22,6 +22,7 @@ MsgExcep2 DB 'excep2',13,10,0
 
 Space DB ' '
 Endl db 0,0,0
+MsgLn db 13,10,0
          .DATA
 glasStr DB 'AEYUIOJaeyuioj'
 spaceStr DB ' '
@@ -40,6 +41,7 @@ glasN dword 10
 inbuf    DB    100 DUP (?)
 str1 DB 100 DUP (?)
 str2 DB 100 DUP (?)
+str3 DB 100 DUP (' ')
 letter DB ' '
          .CODE
 Start:
@@ -164,10 +166,37 @@ Start:
         Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str2
           
+;        Invoke StdOut,ADDR MsgSeparator
+;        lea EBX, str1
+;        add EBX, i1
+;        Invoke StdOut,EBX
+        
+;        std
+;        lea ESI, str2
+;        add ESI, i2
+;        sub ESI, 1
+;        lea EDI, str3
+;        mov EAX, LengthOf str3
+;        add EDI, EAX
+;        sub EDI, 1
+        
+        
+        ; check if legth > 0
+        mov ECX, i2
+        sub ECX, 1
+        lea edi, str3
+        reverse:
+            mov AL, str2[ECX] 
+            stosb
+        loop reverse
+        mov AL, str2[0] 
+        stosb
+        
+        
         Invoke StdOut,ADDR MsgSeparator
-        lea EBX, str1
-        add EBX, i1
-        Invoke StdOut,EBX
+        Invoke StdOut,ADDR str3
+        Invoke StdOut,ADDR MsgSeparator
+        
         
 ;        excep0:
 ;        Invoke StdOut,ADDR MsgExcep0

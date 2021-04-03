@@ -40,6 +40,7 @@ glasN dword 10
 inbuf    DB    100 DUP (?)
 str1 DB 100 DUP (?)
 str2 DB 100 DUP (?)
+str3 DB 100 DUP (' ')
 letter DB ' '
          .CODE
 Start:
@@ -51,13 +52,10 @@ Start:
          Invoke StdOut,ADDR ReqStr
          Invoke StdIn,ADDR str1,LengthOf str1
          
-         lea ESI, str1
-         lea EDI, str2
-         mov fl_space, 1 ;test
          mov fl_transfer, 0
          mov i1, 0
          mov i2, 0
-            
+         cld   
          
       glas_cycle:
          lea EDI, glasStr
@@ -65,17 +63,14 @@ Start:
          mov AL, str1[EBX]
          mov ECX, LengthOf glasStr
          
-         mov fl_space, 1 ;test
          
          repne scasb
             jne sogl
                 ; glas branch
                 Invoke StdOut,ADDR MsgGlas
                 cmp fl_space, 1
-                jne skip1
                     ; turn on transfer
                     mov fl_transfer, 1
-                skip1:
                 jmp merge1
             sogl:
                 Invoke StdOut,ADDR MsgSogl
@@ -99,14 +94,14 @@ Start:
                     mov AL, str1[EBX]
                     
                         cmp AL, 0
-                        jne ok1
+                        jne no_endl_1
                             mov fl_loop, 0   
-                        ok1:
+                        no_endl_1:
                         
                         cmp AL, Space
-                        jne ok2
+                        jne no_space_1
                             mov fl_loop, 0    
-                        ok2:
+                        no_space_1:
                         
                     cmp fl_loop, 1
                 je copy_cycle
@@ -119,14 +114,14 @@ Start:
                     mov AL, str1[EBX]
                         
                         cmp AL, 0
-                        jne ok3
+                        jne no_endl_2
                             mov fl_loop, 0   
-                        ok3:
+                        no_endl_2:
                         
                         cmp AL, Space
-                        jne ok4
+                        jne no_space_2
                             mov fl_loop, 0    
-                        ok4:
+                        no_space_2:
                         
                     cmp fl_loop, 1
                 je skip_cycle
@@ -146,24 +141,21 @@ Start:
             mov AL, str1[EBX]
             mov fl_loop, 1
                cmp AL, 0
-               jne ok3
+               jne no_endl_3
                     mov fl_loop, 0   
-               ok3:
+               no_endl_3:
                         
                cmp AL, Space
-               je ok4
+               je space_branch_1
                     mov fl_loop, 0    
-               ok4:
+               space_branch_1:
             cmp fl_loop, 1
           je spaces_cycle
           
           ;inc i1
           mov EBX, i1
           mov AL, str1[EBX]
-          cmp AL, 0
-          
-          
-          
+          cmp AL,0        
           
         jne glas_cycle
         
@@ -173,48 +165,39 @@ Start:
         Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str2
           
+;        Invoke StdOut,ADDR MsgSeparator
+;        lea EBX, str1
+;        add EBX, i1
+;        Invoke StdOut,EBX
+        
+;        std
+;        lea ESI, str2
+;        add ESI, i2
+;        sub ESI, 1
+;        lea EDI, str3
+;        mov EAX, LengthOf str3
+;        add EDI, EAX
+;        sub EDI, 1
+        
+        mov ECX, i2
+        lea edi, str3
+        reverse:
+            mov AL, str1[ECX]
+            stosb
+        loop reverse
+        
+        
         Invoke StdOut,ADDR MsgSeparator
-        lea EBX, str1
-        add EBX, i1
-        Invoke StdOut,EBX
+        Invoke StdOut,ADDR str3
         
-        excep0:
-        Invoke StdOut,ADDR MsgExcep0
-        excep1:
-        Invoke StdOut,ADDR MsgExcep1
-        excep2:
-        Invoke StdOut,ADDR MsgExcep2
         
-            
-            
-          
-            
-;         mov glasN, LengthOf glasStr ;8
-;         mov Cnt, 0
-;         cycle:
-;            mov EBX, Cnt
-;            mov AL, glasStr[EBX]
-;            mov ESIarch, ESI;push
-;            mov EDIarch, EDI
-;            mov EDI, ESI
-;            repne scasb ; equals if symb found
-;            mov ESI, EDI
-;            mov EDI, EDIarch
-;                jne skip
-;                    ; if glas - copy till space; else -skip
-;                    ;pop ESI;pop 
-;                    mov AL, spaceStr
-;                    cycle2: 
-;                        movsb
-;                        mov AL, spaceStr
-;                        push EDI
-;                        scasb
-;                        pop EDI
-;                        jne cycle2 ; equals if space, else - loop
-;            skip:    
-;            mov EBX, Cnt
-;            cmp EBX, glasN
-;            jne cycle      
+;        excep0:
+;        Invoke StdOut,ADDR MsgExcep0
+;        excep1:
+;        Invoke StdOut,ADDR MsgExcep1
+;        excep2:
+;        Invoke StdOut,ADDR MsgExcep2
+             
               	
          
          Invoke StdOut,ADDR MsgExit

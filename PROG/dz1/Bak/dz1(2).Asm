@@ -22,6 +22,7 @@ MsgExcep2 DB 'excep2',13,10,0
 
 Space DB ' '
 Endl db 0,0,0
+MsgLn db 13,10,0
          .DATA
 glasStr DB 'AEYUIOJaeyuioj'
 spaceStr DB ' '
@@ -40,6 +41,7 @@ glasN dword 10
 inbuf    DB    100 DUP (?)
 str1 DB 100 DUP (?)
 str2 DB 100 DUP (?)
+str3 DB 100 DUP (' ')
 letter DB ' '
          .CODE
 Start:
@@ -93,14 +95,14 @@ Start:
                     mov AL, str1[EBX]
                     
                         cmp AL, 0
-                        jne ok1
+                        jne no_endl_1
                             mov fl_loop, 0   
-                        ok1:
+                        no_endl_1:
                         
                         cmp AL, Space
-                        jne ok2
+                        jne no_space_1
                             mov fl_loop, 0    
-                        ok2:
+                        no_space_1:
                         
                     cmp fl_loop, 1
                 je copy_cycle
@@ -113,14 +115,14 @@ Start:
                     mov AL, str1[EBX]
                         
                         cmp AL, 0
-                        jne ok3
+                        jne no_endl_2
                             mov fl_loop, 0   
-                        ok3:
+                        no_endl_2:
                         
                         cmp AL, Space
-                        jne ok4
+                        jne no_space_2
                             mov fl_loop, 0    
-                        ok4:
+                        no_space_2:
                         
                     cmp fl_loop, 1
                 je skip_cycle
@@ -140,14 +142,14 @@ Start:
             mov AL, str1[EBX]
             mov fl_loop, 1
                cmp AL, 0
-               jne ok5
+               jne no_endl_3
                     mov fl_loop, 0   
-               ok5:
+               no_endl_3:
                         
                cmp AL, Space
-               je ok6
+               je space_branch_1
                     mov fl_loop, 0    
-               ok6:
+               space_branch_1:
             cmp fl_loop, 1
           je spaces_cycle
           
@@ -164,10 +166,33 @@ Start:
         Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str2
           
+;        Invoke StdOut,ADDR MsgSeparator
+;        lea EBX, str1
+;        add EBX, i1
+;        Invoke StdOut,EBX
+        
+;        std
+;        lea ESI, str2
+;        add ESI, i2
+;        sub ESI, 1
+;        lea EDI, str3
+;        mov EAX, LengthOf str3
+;        add EDI, EAX
+;        sub EDI, 1
+        
+        mov ECX, i2
+        sub ECX, 1
+        lea edi, str3
+        reverse:
+            mov AL, str2[ECX] ;55
+            stosb
+        loop reverse
+        
+        
         Invoke StdOut,ADDR MsgSeparator
-        lea EBX, str1
-        add EBX, i1
-        Invoke StdOut,EBX
+        Invoke StdOut,ADDR str3
+        Invoke StdOut,ADDR MsgSeparator
+        
         
 ;        excep0:
 ;        Invoke StdOut,ADDR MsgExcep0
@@ -175,37 +200,7 @@ Start:
 ;        Invoke StdOut,ADDR MsgExcep1
 ;        excep2:
 ;        Invoke StdOut,ADDR MsgExcep2
-        
-            
-            
-          
-            
-;         mov glasN, LengthOf glasStr ;8
-;         mov Cnt, 0
-;         cycle:
-;            mov EBX, Cnt
-;            mov AL, glasStr[EBX]
-;            mov ESIarch, ESI;push
-;            mov EDIarch, EDI
-;            mov EDI, ESI
-;            repne scasb ; equals if symb found
-;            mov ESI, EDI
-;            mov EDI, EDIarch
-;                jne skip
-;                    ; if glas - copy till space; else -skip
-;                    ;pop ESI;pop 
-;                    mov AL, spaceStr
-;                    cycle2: 
-;                        movsb
-;                        mov AL, spaceStr
-;                        push EDI
-;                        scasb
-;                        pop EDI
-;                        jne cycle2 ; equals if space, else - loop
-;            skip:    
-;            mov EBX, Cnt
-;            cmp EBX, glasN
-;            jne cycle      
+             
               	
          
          Invoke StdOut,ADDR MsgExit
