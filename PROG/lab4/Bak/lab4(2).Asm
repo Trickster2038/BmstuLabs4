@@ -12,25 +12,26 @@ IncludeLib masm32.lib
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 reqMatr DB 'Input num: ',13,10,0 
-reqHello DB '=== Input 21 num for 7x3 matrix ===',13,10,0 
-reqEcho DB '=== Echo of your input ===',13,10,0 
-reqResult DB '=== Result ===',13,10,0 
+reqHello DB '=== Input 21 num for 7x3 matrix [0..6, 0..2] ===',13,10,0 
+reqEcho DB '=== Echo of your input [0..6, 0..2] ===',13,10,0 
+reqResult DB '=== Result [0..6, 0..2] ===',13,10,0 
 MsgLn DB 0AH,0DH,0
 MsgSpace DB "    ",0
 RowLg WORD 3
 two WORD 2
+X SDWORD 4
 
          .DATA
-
+Matr SDWORD 25 DUP (7)
          .DATA?
 Cnt byte ?
 MsgResult DB 10 DUP (?)
 inbuf    DB    100 DUP (?)
 buffer DB 10 DUP (?)
 outstr DB 10 DUP (?)
-Matr SDWORD 25 DUP (?)
 A SWORD ?
 B SWORD ?
+
 
 
          .CODE
@@ -42,6 +43,8 @@ Start:
          
          Invoke StdOut,ADDR reqHello
          
+         ; input cycle
+         
          mov EBX, 0
          in_cycle:
             Invoke StdOut,ADDR reqMatr
@@ -50,7 +53,7 @@ Start:
             Invoke atol,ADDR buffer ;result in EAX
             mov Matr[EBX*4], EAX
             inc EBX
-            cmp EBX,6
+            cmp EBX,21
             jne in_cycle
             
          ; echo cycle
@@ -75,9 +78,24 @@ Start:
             jne in1_row
                 Invoke StdOut,ADDR MsgLn
             
-            in1_row:
-            cmp EBX,6
-            jne out1_cycle
+;            in1_row:
+;            cmp EBX,21
+;            jne out1_cycle
+;            
+;         mov EBX, 1
+;         out11_cycle:
+;            mov ECX, 3
+;            out12_cycle:
+;                mov EAX,3
+;                imul EBX               
+;                imul X
+;                sub EAX, ECX
+;                Invoke dwtoa,Matr[EAX],ADDR outstr
+;                Invoke StdOut,ADDR outstr
+;                Invoke StdOut,ADDR MsgSpace
+;                loop out12_cycle
+;            cmp EBX,8
+;            jne out11_cycle
             
          ; delete cycle
          
@@ -98,7 +116,7 @@ Start:
             
             odd: ; x%2 = 1
             inc EBX
-            cmp EBX,6
+            cmp EBX,21
             jne delete_cycle
             
             
@@ -125,7 +143,7 @@ Start:
                 Invoke StdOut,ADDR MsgLn
             
             in_row:
-            cmp EBX,6
+            cmp EBX,21
             jne out_cycle
             
           
