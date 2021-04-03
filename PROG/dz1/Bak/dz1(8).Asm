@@ -45,6 +45,7 @@ str1 DB 100 DUP (?)
 str2 DB 100 DUP (?)
 str3 DB 100 DUP (?)
 str4 DB 100 DUP (?)
+str5 DB 100 DUP (?)
 letter DB ' '
          .CODE
 Start:
@@ -219,23 +220,23 @@ sogl_cycle:
          
          
          repne scasb
-            jne sogl
+            jne sogl2
                 ; glas branch
                 Invoke StdOut,ADDR MsgGlas
                 cmp fl_space, 1
                     ; turn on transfer
-                    mov fl_transfer, 1
-                jmp merge1
-            sogl:
+                    mov fl_transfer, 0
+                jmp merge2
+            sogl2:
                 Invoke StdOut,ADDR MsgSogl
-                mov fl_transfer, 0
-            merge1:
+                mov fl_transfer, 1
+            merge2:
             
             mov fl_space, 0
             
             cmp fl_transfer,1
-            jne no_copy
-                copy_cycle:
+            jne no_copy2
+                copy_cycle2:
                     mov EBX, i3
                     lea ESI, str3[EBX]
                     mov EBX, i4
@@ -248,9 +249,9 @@ sogl_cycle:
                     mov AL, str3[EBX]
                     
                         cmp AL, 0
-                        jne no_endl_3
+                        jne no_endl_4
                             mov fl_loop, 0   
-                        no_endl_3:
+                        no_endl_4:
                         
                         cmp AL, Space
                         jne no_space_3
@@ -258,19 +259,19 @@ sogl_cycle:
                         no_space_3:
                         
                     cmp fl_loop, 1
-                je copy_cycle
-                jmp transfer_merge
+                je copy_cycle2
+                jmp transfer_merge2
                 
-            no_copy:
-                skip_cycle:
+            no_copy2:
+                skip_cycle2:
                     inc i1
                     mov EBX, i3
                     mov AL, str3[EBX]
                         
                         cmp AL, 0
-                        jne no_endl_4
+                        jne no_endl_5
                             mov fl_loop, 0   
-                        no_endl_4:
+                        no_endl_5:
                         
                         cmp AL, Space
                         jne no_space_4
@@ -278,8 +279,8 @@ sogl_cycle:
                         no_space_4:
                         
                     cmp fl_loop, 1
-                je skip_cycle
-            transfer_merge:
+                je skip_cycle2
+            transfer_merge2:
             
           
           mov EBX, i4
@@ -289,22 +290,22 @@ sogl_cycle:
           inc i4
           
 
-          spaces_cycle:
+          spaces_cycle2:
             inc i3
             mov EBX, i3
             mov AL, str3[EBX]
             mov fl_loop, 1
                cmp AL, 0
-               jne no_endl_3
+               jne no_endl_6
                     mov fl_loop, 0   
-               no_endl_3:
+               no_endl_6:
                         
                cmp AL, Space
-               je space_branch_1
+               je space_branch_2
                     mov fl_loop, 0    
-               space_branch_1:
+               space_branch_2:
             cmp fl_loop, 1
-          je spaces_cycle
+          je spaces_cycle2
           
           ;inc i1
           mov EBX, i3
@@ -312,8 +313,95 @@ sogl_cycle:
           cmp AL,0        
           
         jne sogl_cycle
+        
+        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR str4
+        Invoke StdOut,ADDR MsgSeparator
+        
+        
+                ; check if legth > 0
+        mov ECX, i4
+        sub ECX, 1
+        lea edi, str5
+        reverse2:
+            mov AL, str4[ECX] 
+            stosb
+        loop reverse2
+        mov AL, str4[0] 
+        stosb
+        
+        
+        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR str5
+        Invoke StdOut,ADDR MsgSeparator
              
-              	
+       ;==============================
+       sogl_cycle:
+         lea EDI, glasStr
+         mov EBX, i5
+         mov AL, str5[EBX]
+         mov ECX, LengthOf glasStr
+         
+            mov fl_space, 0
+            
+                copy_cycle3:
+                    mov EBX, i5
+                    lea ESI, str5[EBX]
+                    mov EBX, i6
+                    lea EDI, str6[EBX]
+                    movsb 
+                    inc i5
+                    inc i6
+                    mov EBX, i5
+                    mov fl_loop, 1
+                    mov AL, str5[EBX]
+                    
+                        cmp AL, 0
+                        jne no_endl_7
+                            mov fl_loop, 0   
+                        no_endl_7:
+                        
+                        cmp AL, Space
+                        jne no_space_3
+                            mov fl_loop, 0    
+                        no_space_3:
+                        
+                    cmp fl_loop, 1
+                je copy_cycle3
+            
+          
+          mov EBX, i6
+          lea ESI, Space
+          lea EDI, str6[EBX]
+          movsb
+          inc i6
+          
+
+          spaces_cycle3:
+            inc i5
+            mov EBX, i5
+            mov AL, str5[EBX]
+            mov fl_loop, 1
+               cmp AL, 0
+               jne no_endl_8
+                    mov fl_loop, 0   
+               no_endl_8:
+                        
+               cmp AL, Space
+               je space_branch_3
+                    mov fl_loop, 0    
+               space_branch_3:
+            cmp fl_loop, 1
+          je spaces_cycle3
+          
+          ;inc i1
+          mov EBX, i5
+          mov AL, str5[EBX]
+          cmp AL,0        
+          
+        jne sogl_cycle
+       
+       ;=============================
          
          Invoke StdOut,ADDR MsgExit
          Invoke StdIn,ADDR inbuf,LengthOf inbuf		

@@ -38,6 +38,8 @@ i1 dword 0
 i2 dword 0
 i3 dword 0
 i4 dword 0
+i5 dword 0
+i6 dword 0
 Cnt dword 10
 glasN dword 10
 inbuf    DB    100 DUP (?)
@@ -45,6 +47,8 @@ str1 DB 100 DUP (?)
 str2 DB 100 DUP (?)
 str3 DB 100 DUP (?)
 str4 DB 100 DUP (?)
+str5 DB 100 DUP (?)
+str6 DB 100 DUP (?)
 letter DB ' '
          .CODE
 Start:
@@ -224,11 +228,11 @@ sogl_cycle:
                 Invoke StdOut,ADDR MsgGlas
                 cmp fl_space, 1
                     ; turn on transfer
-                    mov fl_transfer, 1
+                    mov fl_transfer, 0
                 jmp merge2
             sogl2:
                 Invoke StdOut,ADDR MsgSogl
-                mov fl_transfer, 0
+                mov fl_transfer, 1
             merge2:
             
             mov fl_space, 0
@@ -316,8 +320,96 @@ sogl_cycle:
         Invoke StdOut,ADDR MsgSeparator
         Invoke StdOut,ADDR str4
         Invoke StdOut,ADDR MsgSeparator
+        
+        
+                ; check if legth > 0
+        mov ECX, i4
+        sub ECX, 1
+        lea edi, str5
+        reverse2:
+            mov AL, str4[ECX] 
+            stosb
+        loop reverse2
+        mov AL, str4[0] 
+        stosb
+        
+        
+        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR str5
+        Invoke StdOut,ADDR MsgSeparator
+        
+        mov AX, i4
+        mov i5, AX 
              
-              	
+       ;==============================
+       mov i6, 0
+       
+       big_spaces_cycle:
+         lea EDI, glasStr
+         mov EBX, i5
+         mov AL, str5[EBX]
+         mov ECX, LengthOf glasStr
+         
+            mov fl_space, 0
+            
+                copy_cycle3:
+                    mov EBX, i5
+                    lea ESI, str5[EBX]
+                    mov EBX, i6
+                    lea EDI, str6[EBX]
+                    movsb 
+                    inc i5
+                    inc i6
+                    mov EBX, i5
+                    mov fl_loop, 1
+                    mov AL, str5[EBX]
+                    
+                        cmp AL, 0
+                        jne no_endl_7
+                            mov fl_loop, 0   
+                        no_endl_7:
+                        
+                        cmp AL, Space
+                        jne no_space_3
+                            mov fl_loop, 0    
+                        no_space_3:
+                        
+                    cmp fl_loop, 1
+                je copy_cycle3
+            
+          
+          mov EBX, i6
+          lea ESI, Space
+          lea EDI, str6[EBX]
+          movsb
+          inc i6
+          
+
+          spaces_cycle3:
+            inc i5
+            mov EBX, i5
+            mov AL, str5[EBX]
+            mov fl_loop, 1
+               cmp AL, 0
+               jne no_endl_8
+                    mov fl_loop, 0   
+               no_endl_8:
+                        
+               cmp AL, Space
+               je space_branch_3
+                    mov fl_loop, 0    
+               space_branch_3:
+            cmp fl_loop, 1
+          je spaces_cycle3
+          
+          ;inc i1
+          mov EBX, i5
+          mov AL, str5[EBX]
+          cmp AL,0        
+          
+        jne big_spaces_cycle
+       
+       ;=============================
          
          Invoke StdOut,ADDR MsgExit
          Invoke StdIn,ADDR inbuf,LengthOf inbuf		
