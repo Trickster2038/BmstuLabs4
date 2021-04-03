@@ -99,8 +99,18 @@ Start:
           lea EDI, str2[EBX]
           movsb
           inc i2
-            
+          
           Invoke StdOut,ADDR str2
+          
+          spaces_cycle:
+            inc i1
+            inc i2
+            mov EBX, i1
+            mov AL, str1[EBX]
+            cmp AL, Space
+          je spaces_cycle
+            
+          
             
 ;         mov glasN, LengthOf glasStr ;8
 ;         mov Cnt, 0

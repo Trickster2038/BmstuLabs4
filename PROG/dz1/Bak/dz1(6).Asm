@@ -103,9 +103,16 @@ Start:
           Invoke StdOut,ADDR str2
           
           spaces_cycle:
-          jne spaces_cycle:
+            inc i1
+            mov EBX, i1
+            mov AL, str1[EBX]
+            cmp AL, Space
+          je spaces_cycle
             
+          lea EBX, str1
+          add EBX, i1
           
+          Invoke StdOut,EBX
             
 ;         mov glasN, LengthOf glasStr ;8
 ;         mov Cnt, 0

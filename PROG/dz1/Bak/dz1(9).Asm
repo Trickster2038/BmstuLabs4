@@ -93,13 +93,19 @@ Start:
                 jne skip_cycle
             transfer_merge:
             
-          inc i2
+          
           mov EBX, i2
           lea EDI, Space
           lea EDI, str2[EBX]
           movsb
-            
+          inc i2
+          
           Invoke StdOut,ADDR str2
+          
+          spaces_cycle:
+          jne spaces_cycle:
+            
+          
             
 ;         mov glasN, LengthOf glasStr ;8
 ;         mov Cnt, 0

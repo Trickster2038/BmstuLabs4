@@ -11,7 +11,7 @@ IncludeLib masm32.lib
 
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
-MsgSeparator  DB    "=================",0AH,0DH,0
+MsgSeparator  DB    0AH,0DH,"=================",0AH,0DH,0
 ReqStr DB 'Input string: ',13,10,0
 MsgGlas DB 'glasnay found',13,10,0
 MsgSogl DB 'soglasnay found',13,10,0
@@ -47,7 +47,7 @@ Start:
          lea ESI, str1
          lea EDI, str2
          mov fl_space, 1 ;test
-         
+         mov fl_transfer, 0
          mov i1, 0
          mov i2, 0
          lea EDI, glasStr
@@ -66,6 +66,7 @@ Start:
                 jmp merge1
             sogl:
                 Invoke StdOut,ADDR MsgSogl
+                mov fl_transfer, 0
             merge1:
             
             mov fl_space, 0

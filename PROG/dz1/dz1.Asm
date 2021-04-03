@@ -47,7 +47,7 @@ Start:
          lea ESI, str1
          lea EDI, str2
          mov fl_space, 1 ;test
-         
+         mov fl_transfer, 0
          mov i1, 0
          mov i2, 0
          lea EDI, glasStr
@@ -66,6 +66,7 @@ Start:
                 jmp merge1
             sogl:
                 Invoke StdOut,ADDR MsgSogl
+                mov fl_transfer, 0
             merge1:
             
             mov fl_space, 0
@@ -96,7 +97,7 @@ Start:
             
           
           mov EBX, i2
-          lea EDI, Space
+          lea ESI, Space
           lea EDI, str2[EBX]
           movsb
           inc i2

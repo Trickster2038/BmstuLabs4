@@ -100,10 +100,16 @@ Start:
           movsb
           inc i2
           
-          spaces_cycle:
-          jne spaces_cycle:
-            
           Invoke StdOut,ADDR str2
+          
+          spaces_cycle:
+            inc i1
+            mov EBX, i1
+            mov AL, str1[EBX]
+            cmp AL, Space
+          je spaces_cycle
+            
+          
             
 ;         mov glasN, LengthOf glasStr ;8
 ;         mov Cnt, 0
