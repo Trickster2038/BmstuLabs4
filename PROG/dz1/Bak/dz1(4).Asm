@@ -11,7 +11,13 @@ IncludeLib masm32.lib
 
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
-MsgSeparator  DB    0AH,0DH,"=================",0AH,0DH,0
+MsgSeparator  DB    0AH,0DH,"==================",0AH,0DH,0
+MsgSeparator1  DB    0AH,0DH,"===1==============",0AH,0DH,0
+MsgSeparator2  DB    0AH,0DH,"===2==============",0AH,0DH,0
+MsgSeparator3  DB    0AH,0DH,"===3==============",0AH,0DH,0
+MsgSeparator4 DB    0AH,0DH,"===4==============",0AH,0DH,0
+MsgSeparator5 DB    0AH,0DH,"===5==============",0AH,0DH,0
+MsgTraceGl DB    0AH,0DH,"==glas============",0AH,0DH,0
 ReqStr DB 'Input string: ',13,10,0
 MsgGlas DB 'glasnay found',13,10,0
 MsgSogl DB 'soglasnay found',13,10,0
@@ -75,13 +81,13 @@ Start:
          repne scasb
             jne sogl
                 ; glas branch
-                Invoke StdOut,ADDR MsgGlas
+                ;Invoke StdOut,ADDR MsgGlas
                 cmp fl_space, 1
                     ; turn on transfer
                     mov fl_transfer, 1
                 jmp merge1
             sogl:
-                Invoke StdOut,ADDR MsgSogl
+                ;Invoke StdOut,ADDR MsgSogl
                 mov fl_transfer, 0
             merge1:
             
@@ -168,9 +174,9 @@ Start:
         jne glas_cycle
         
         
+        ;Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
-        
-        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR MsgSeparator1
         Invoke StdOut,ADDR str2
           
 ;        Invoke StdOut,ADDR MsgSeparator
@@ -199,10 +205,11 @@ Start:
         mov AL, str2[0] 
         stosb
         
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
-        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR MsgSeparator2
         Invoke StdOut,ADDR str3
-        Invoke StdOut,ADDR MsgSeparator
+        ;Invoke StdOut,ADDR MsgSeparator
         
         
 ;        excep0:
@@ -214,6 +221,7 @@ Start:
 
 mov i3, 0
 mov i4, 0
+mov fl_transfer, 0
 
 sogl_cycle:
          lea EDI, glasStr
@@ -225,13 +233,13 @@ sogl_cycle:
          repne scasb
             jne sogl2
                 ; glas branch
-                Invoke StdOut,ADDR MsgGlas
-                cmp fl_space, 1
-                    ; turn on transfer
+                ;Invoke StdOut,ADDR MsgGlas
+                ; turn on transfer
                     mov fl_transfer, 0
                 jmp merge2
             sogl2:
-                Invoke StdOut,ADDR MsgSogl
+                ;Invoke StdOut,ADDR MsgSogl
+                Invoke StdOut,ADDR MsgTraceSg
                 mov fl_transfer, 1
             merge2:
             
@@ -317,9 +325,11 @@ sogl_cycle:
           
         jne sogl_cycle
         
-        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
+        
+        Invoke StdOut,ADDR MsgSeparator3
         Invoke StdOut,ADDR str4
-        Invoke StdOut,ADDR MsgSeparator
+        ;Invoke StdOut,ADDR MsgSeparator
         
         
                 ; check if legth > 0
@@ -333,10 +343,11 @@ sogl_cycle:
         mov AL, str4[0] 
         stosb
         
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
         
-        Invoke StdOut,ADDR MsgSeparator
+        Invoke StdOut,ADDR MsgSeparator4
         Invoke StdOut,ADDR str5
-        Invoke StdOut,ADDR MsgSeparator
+        ;Invoke StdOut,ADDR MsgSeparator
         
         mov EAX, i4
         mov i5, EAX 
@@ -412,7 +423,9 @@ sogl_cycle:
        
        ;=============================
        
-       Invoke StdOut,ADDR MsgSeparator
+       Invoke StdIn,ADDR inbuf,LengthOf inbuf
+       
+       Invoke StdOut,ADDR MsgSeparator5
         Invoke StdOut,ADDR str6
         Invoke StdOut,ADDR MsgSeparator
          

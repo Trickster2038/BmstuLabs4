@@ -17,6 +17,7 @@ MsgSeparator2  DB    0AH,0DH,"===2==============",0AH,0DH,0
 MsgSeparator3  DB    0AH,0DH,"===3==============",0AH,0DH,0
 MsgSeparator4 DB    0AH,0DH,"===4==============",0AH,0DH,0
 MsgSeparator5 DB    0AH,0DH,"===5==============",0AH,0DH,0
+MsgTraceSg DB    0AH,0DH,"==sogl============",0AH,0DH,0
 ReqStr DB 'Input string: ',13,10,0
 MsgGlas DB 'glasnay found',13,10,0
 MsgSogl DB 'soglasnay found',13,10,0
@@ -30,6 +31,7 @@ Endl db 0,0,0
 MsgLn db 13,10,0
          .DATA
 glasStr DB 'AEYUIOJaeyuioj'
+soglStr DB 'QWRTPSDFGHKLZXCVBNMqwrtpsdfgklzxcvbnm'
 spaceStr DB ' '
 fl_glas byte 0
 fl_space byte 0
@@ -220,24 +222,25 @@ Start:
 
 mov i3, 0
 mov i4, 0
+mov fl_transfer, 0
 
 sogl_cycle:
-         lea EDI, glasStr
+         lea EDI, soglStr
          mov EBX, i3
          mov AL, str3[EBX]
-         mov ECX, LengthOf glasStr
+         mov ECX, LengthOf soglStr
          
          
          repne scasb
-            jne sogl2
+            je sogl2
                 ; glas branch
                 ;Invoke StdOut,ADDR MsgGlas
-                cmp fl_space, 1
-                    ; turn on transfer
+                ; turn on transfer
                     mov fl_transfer, 0
                 jmp merge2
             sogl2:
                 ;Invoke StdOut,ADDR MsgSogl
+                Invoke StdOut,ADDR MsgTraceSg
                 mov fl_transfer, 1
             merge2:
             
