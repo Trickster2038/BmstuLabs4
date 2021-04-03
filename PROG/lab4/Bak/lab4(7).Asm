@@ -18,20 +18,24 @@ reqResult DB '=== Result [0..6, 0..2] ===',13,10,0
 MsgLn DB 0AH,0DH,0
 MsgSpace DB "    ",0
 RowLg WORD 3
-two WORD 2
+two_sizes WORD 8 ;=2*4bytes
+_3 WORD 3
+X SDWORD 4
 
          .DATA
-
+Matr SDWORD 25 DUP (7)
+log db 20 dup (?)
          .DATA?
 Cnt byte ?
 MsgResult DB 10 DUP (?)
 inbuf    DB    100 DUP (?)
 buffer DB 10 DUP (?)
 outstr DB 10 DUP (?)
-Matr SDWORD 25 DUP (?)
 A SWORD ?
 B SWORD ?
-X SDWORD ?
+i SDWORD ?
+j SDWORD ?
+
 
 
          .CODE
@@ -43,16 +47,18 @@ Start:
          
          Invoke StdOut,ADDR reqHello
          
-         mov EBX, 0
-         in_cycle:
-            Invoke StdOut,ADDR reqMatr
-            Invoke StdIn,ADDR buffer,LengthOf buffer
-            Invoke StripLF,ADDR buffer
-            Invoke atol,ADDR buffer ;result in EAX
-            mov Matr[EBX*4], EAX
-            inc EBX
-            cmp EBX,21
-            jne in_cycle
+         ; input cycle
+         
+;         mov EBX, 0
+;         in_cycle:
+;            Invoke StdOut,ADDR reqMatr
+;            Invoke StdIn,ADDR buffer,LengthOf buffer
+;            Invoke StripLF,ADDR buffer
+;            Invoke atol,ADDR buffer ;result in EAX
+;            mov Matr[EBX*4], EAX
+;            inc EBX
+;            cmp EBX,21
+;            jne in_cycle
             
          ; echo cycle
             
@@ -79,42 +85,90 @@ Start:
             in1_row:
             cmp EBX,21
             jne out1_cycle
-            
-         mov EBX, 1
-         out11_cycle:
-            mov ECX, 3
-            out12_cycle:
-                mov EAX,3
-                imul EBX               
-                mov X, EAX
-                Invoke dwtoa,Matr[EAX*4 ],ADDR outstr
+          
+          mov i,0
+          mov j,0
+          alt_out_cycle:
+              mov j,0
+              Invoke StdOut,ADDR MsgLn
+              alt_in_cycle:
+                mov EBX,i
+                mov ECX,j
+                Invoke dwtoa,Matr[EBX+ECX],ADDR outstr
                 Invoke StdOut,ADDR outstr
                 Invoke StdOut,ADDR MsgSpace
-                loop out12_cycle
-            cmp EBX,8
-            jne out11_cycle
+                add j,4
+                cmp j,12
+              jl alt_in_cycle
+            add i,12
+            cmp i,84
+            jl alt_out_cycle
             
-         ; delete cycle
+          Invoke StdOut,ADDR MsgLn
+;==========================================
+
+        mov i,0
+        mov j,0
+          alt_out_cycle1:
+              mov j,0
+              Invoke StdOut,ADDR MsgLn
+              alt_in_cycle1:
+                ;Invoke dwtoa,i,ADDR log
+                ;Invoke StdOut,ADDR log
+                
+                mov EBX,i
+                mov ECX,j
+                ;mov EAX,0
+                mov EAX, i
+                
+                
+                cwd ;DX:AX = AX
+                idiv _3;AX:=(DX:AX):2   DX = remain
+                add AX, word ptr j
+                cwd ;DX:AX = AX
+                
+                idiv two_sizes;AX:=(DX:AX):2   DX = remain
+                cmp DX,1
+                je odd
+                    mov Matr[EBX+ECX], 0
+                odd: ; x%2 = 1
+                
+                Invoke dwtoa,EAX,ADDR log
+                Invoke StdOut,ADDR log
+                
+                ;Invoke dwtoa,Matr[EBX+ECX],ADDR outstr
+                ;Invoke StdOut,ADDR outstr
+                ;Invoke StdOut,ADDR MsgSpace
+                add j,4
+                cmp j,12
+              jl alt_in_cycle1
+            add i,12
+            cmp i,84
+            jl alt_out_cycle1
+            
+          Invoke StdOut,ADDR MsgLn
          
-         mov EBX, 0
-         delete_cycle:  
-            mov dword ptr A, EBX
-            mov AX, A
-            cwd ;DX:AX = AX
-            idiv RowLg;AX:=(DX:AX):3  DX = remain
-            
-            add AX, DX
-            cwd ;DX:AX = AX
-            idiv two;AX:=(DX:AX):2   DX = remain
-            
-            cmp DX,0
-            jne odd
-                mov Matr[EBX*4], 0
-            
-            odd: ; x%2 = 1
-            inc EBX
-            cmp EBX,21
-            jne delete_cycle
+;==========================================
+         
+;         mov EBX, 0
+;         delete_cycle:  
+;            mov dword ptr A, EBX
+;            mov AX, A
+;            cwd ;DX:AX = AX
+;            idiv RowLg;AX:=(DX:AX):3  DX = remain
+;            
+;            add AX, DX
+;            cwd ;DX:AX = AX
+;            idiv two;AX:=(DX:AX):2   DX = remain
+;            
+;            cmp DX,0
+;            jne odd
+;                mov Matr[EBX*4], 0
+;            
+;            odd: ; x%2 = 1
+;            inc EBX
+;            cmp EBX,21
+;            jne delete_cycle
             
             
          ; result cycle
