@@ -35,6 +35,7 @@ A SWORD ?
 B SWORD ?
 i SDWORD ?
 j SDWORD ?
+res SDWORD ?
 
 
 
@@ -94,8 +95,8 @@ Start:
               alt_in_cycle:
                 mov EBX,i
                 mov ECX,j
-                Invoke dwtoa,EAX,ADDR log
-                Invoke StdOut,ADDR log
+                Invoke dwtoa,Matr[EBX+ECX],ADDR outstr
+                Invoke StdOut,ADDR outstr
                 Invoke StdOut,ADDR MsgSpace
                 add j,4
                 cmp j,12
@@ -124,8 +125,10 @@ Start:
                 
                 cwd ;DX:AX = AX
                 idiv _3;AX:=(DX:AX):2   DX = remain
-                add AX, word ptr j
+                add EAX,j
                 cwd ;DX:AX = AX
+                
+                mov res, EAX
                 
                 idiv two_sizes;AX:=(DX:AX):2   DX = remain
                 cmp DX,1
@@ -133,8 +136,12 @@ Start:
                     mov Matr[EBX+ECX], 0
                 odd: ; x%2 = 1
                 
-                Invoke dwtoa,Matr[EBX+ECX],ADDR outstr
-                Invoke StdOut,ADDR outstr
+                Invoke dwtoa,res,ADDR log
+                Invoke StdOut,ADDR MsgLn
+                Invoke StdOut,ADDR log
+                
+                ;Invoke dwtoa,Matr[EBX+ECX],ADDR outstr
+                ;Invoke StdOut,ADDR outstr
                 ;Invoke StdOut,ADDR MsgSpace
                 add j,4
                 cmp j,12

@@ -35,6 +35,7 @@ A SWORD ?
 B SWORD ?
 i SDWORD ?
 j SDWORD ?
+res SDWORD ?
 
 
 
@@ -66,25 +67,25 @@ Start:
          Invoke StdOut,ADDR reqEcho
          Invoke StdOut,ADDR MsgLn
          
-         mov EBX, 0
-         out1_cycle:
-            Invoke dwtoa,Matr[EBX*4],ADDR outstr
-            Invoke StdOut,ADDR outstr
-            Invoke StdOut,ADDR MsgSpace
-            
-            inc EBX
-            
-            mov dword ptr A, EBX
-            mov AX, A
-            cwd ;DX:AX = AX
-            idiv RowLg;AX:=(DX:AX):3
-            cmp DX,0
-            jne in1_row
-                Invoke StdOut,ADDR MsgLn
-            
-            in1_row:
-            cmp EBX,21
-            jne out1_cycle
+;         mov EBX, 0
+;         out1_cycle:
+;            Invoke dwtoa,Matr[EBX*4],ADDR outstr
+;            Invoke StdOut,ADDR outstr
+;            Invoke StdOut,ADDR MsgSpace
+;            
+;            inc EBX
+;            
+;            mov dword ptr A, EBX
+;            mov AX, A
+;            cwd ;DX:AX = AX
+;            idiv RowLg;AX:=(DX:AX):3
+;            cmp DX,0
+;            jne in1_row
+;                Invoke StdOut,ADDR MsgLn
+;            
+;            in1_row:
+;            cmp EBX,21
+;            jne out1_cycle
           
           mov i,0
           mov j,0
@@ -127,18 +128,18 @@ Start:
                 add EAX,j
                 cwd ;DX:AX = AX
                 
+                ;mov res, EAX
+                
                 idiv two_sizes;AX:=(DX:AX):2   DX = remain
-                cmp DX,1
-                je odd
+                cmp DX,0
+                jne odd
                     mov Matr[EBX+ECX], 0
                 odd: ; x%2 = 1
                 
-                Invoke dwtoa,EAX,ADDR log
-                Invoke StdOut,ADDR log
+                ;Invoke dwtoa,res,ADDR log
+                ;Invoke StdOut,ADDR MsgLn
+                ;Invoke StdOut,ADDR log
                 
-                ;Invoke dwtoa,Matr[EBX+ECX],ADDR outstr
-                ;Invoke StdOut,ADDR outstr
-                ;Invoke StdOut,ADDR MsgSpace
                 add j,4
                 cmp j,12
               jl alt_in_cycle1

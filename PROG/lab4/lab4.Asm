@@ -48,7 +48,7 @@ Start:
          
          Invoke StdOut,ADDR reqHello
          
-         ; input cycle
+;=================== input cycle ================
          
 ;         mov EBX, 0
 ;         in_cycle:
@@ -61,31 +61,11 @@ Start:
 ;            cmp EBX,21
 ;            jne in_cycle
             
-         ; echo cycle
+;=========== echo cycle =============================
             
          Invoke StdOut,ADDR MsgLn   
          Invoke StdOut,ADDR reqEcho
          Invoke StdOut,ADDR MsgLn
-         
-         mov EBX, 0
-         out1_cycle:
-            Invoke dwtoa,Matr[EBX*4],ADDR outstr
-            Invoke StdOut,ADDR outstr
-            Invoke StdOut,ADDR MsgSpace
-            
-            inc EBX
-            
-            mov dword ptr A, EBX
-            mov AX, A
-            cwd ;DX:AX = AX
-            idiv RowLg;AX:=(DX:AX):3
-            cmp DX,0
-            jne in1_row
-                Invoke StdOut,ADDR MsgLn
-            
-            in1_row:
-            cmp EBX,21
-            jne out1_cycle
           
           mov i,0
           mov j,0
@@ -106,16 +86,14 @@ Start:
             jl alt_out_cycle
             
           Invoke StdOut,ADDR MsgLn
-;==========================================
+;========== deleting cycle =========
 
         mov i,0
         mov j,0
           alt_out_cycle1:
               mov j,0
-              Invoke StdOut,ADDR MsgLn
+              ;Invoke StdOut,ADDR MsgLn
               alt_in_cycle1:
-                ;Invoke dwtoa,i,ADDR log
-                ;Invoke StdOut,ADDR log
                 
                 mov EBX,i
                 mov ECX,j
@@ -147,56 +125,33 @@ Start:
             cmp i,84
             jl alt_out_cycle1
             
-          Invoke StdOut,ADDR MsgLn
          
-;==========================================
-         
-;         mov EBX, 0
-;         delete_cycle:  
-;            mov dword ptr A, EBX
-;            mov AX, A
-;            cwd ;DX:AX = AX
-;            idiv RowLg;AX:=(DX:AX):3  DX = remain
-;            
-;            add AX, DX
-;            cwd ;DX:AX = AX
-;            idiv two;AX:=(DX:AX):2   DX = remain
-;            
-;            cmp DX,0
-;            jne odd
-;                mov Matr[EBX*4], 0
-;            
-;            odd: ; x%2 = 1
-;            inc EBX
-;            cmp EBX,21
-;            jne delete_cycle
-            
-            
-         ; result cycle
+;=========== output result ============
+
             
          Invoke StdOut,ADDR MsgLn   
          Invoke StdOut,ADDR reqResult
          Invoke StdOut,ADDR MsgLn
+
+         mov i,0
+          mov j,0
+          alt_out_cycle2:
+              mov j,0
+              Invoke StdOut,ADDR MsgLn
+              alt_in_cycle2:
+                mov EBX,i
+                mov ECX,j
+                Invoke dwtoa,Matr[EBX+ECX],ADDR outstr
+                Invoke StdOut,ADDR outstr
+                Invoke StdOut,ADDR MsgSpace
+                add j,4
+                cmp j,12
+              jl alt_in_cycle2
+            add i,12
+            cmp i,84
+            jl alt_out_cycle2
             
-         mov EBX, 0
-         out_cycle:
-            Invoke dwtoa,Matr[EBX*4],ADDR outstr
-            Invoke StdOut,ADDR outstr
-            Invoke StdOut,ADDR MsgSpace
-            
-            inc EBX
-            
-            mov dword ptr A, EBX
-            mov AX, A
-            cwd ;DX:AX = AX
-            idiv RowLg;AX:=(DX:AX):3
-            cmp DX,0
-            jne in_row
-                Invoke StdOut,ADDR MsgLn
-            
-            in_row:
-            cmp EBX,21
-            jne out_cycle
+          Invoke StdOut,ADDR MsgLn
             
           
          Invoke StdOut,ADDR MsgLn            
