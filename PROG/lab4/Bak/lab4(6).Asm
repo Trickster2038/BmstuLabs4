@@ -106,13 +106,13 @@ Start:
             jl alt_out_cycle
             
           Invoke StdOut,ADDR MsgLn
-;==========================================
+;========== deleting cycle =========
 
         mov i,0
         mov j,0
           alt_out_cycle1:
               mov j,0
-              Invoke StdOut,ADDR MsgLn
+              ;Invoke StdOut,ADDR MsgLn
               alt_in_cycle1:
                 ;Invoke dwtoa,i,ADDR log
                 ;Invoke StdOut,ADDR log
@@ -147,9 +147,9 @@ Start:
             cmp i,84
             jl alt_out_cycle1
             
-          Invoke StdOut,ADDR MsgLn
+          ;Invoke StdOut,ADDR MsgLn
          
-;==========================================
+;=========== output result ============
          
 ;         mov EBX, 0
 ;         delete_cycle:  
@@ -178,25 +178,45 @@ Start:
          Invoke StdOut,ADDR reqResult
          Invoke StdOut,ADDR MsgLn
             
-         mov EBX, 0
-         out_cycle:
-            Invoke dwtoa,Matr[EBX*4],ADDR outstr
-            Invoke StdOut,ADDR outstr
-            Invoke StdOut,ADDR MsgSpace
+;         mov EBX, 0
+;         out_cycle:
+;            Invoke dwtoa,Matr[EBX*4],ADDR outstr
+;            Invoke StdOut,ADDR outstr
+;            Invoke StdOut,ADDR MsgSpace
+;            
+;            inc EBX
+;            
+;            mov dword ptr A, EBX
+;            mov AX, A
+;            cwd ;DX:AX = AX
+;            idiv RowLg;AX:=(DX:AX):3
+;            cmp DX,0
+;            jne in_row
+;                Invoke StdOut,ADDR MsgLn
+;            
+;            in_row:
+;            cmp EBX,21
+;            jne out_cycle
+
+         mov i,0
+          mov j,0
+          alt_out_cycle2:
+              mov j,0
+              Invoke StdOut,ADDR MsgLn
+              alt_in_cycle2:
+                mov EBX,i
+                mov ECX,j
+                Invoke dwtoa,Matr[EBX+ECX],ADDR outstr
+                Invoke StdOut,ADDR outstr
+                Invoke StdOut,ADDR MsgSpace
+                add j,4
+                cmp j,12
+              jl alt_in_cycle2
+            add i,12
+            cmp i,84
+            jl alt_out_cycle2
             
-            inc EBX
-            
-            mov dword ptr A, EBX
-            mov AX, A
-            cwd ;DX:AX = AX
-            idiv RowLg;AX:=(DX:AX):3
-            cmp DX,0
-            jne in_row
-                Invoke StdOut,ADDR MsgLn
-            
-            in_row:
-            cmp EBX,21
-            jne out_cycle
+          Invoke StdOut,ADDR MsgLn
             
           
          Invoke StdOut,ADDR MsgLn            
