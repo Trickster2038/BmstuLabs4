@@ -406,9 +406,8 @@ sogl_cycle:
          repe scasb
      je empty_str6
        
-       Invoke StdIn,ADDR inbuf,LengthOf inbuf
-       
-       Invoke StdOut,ADDR MsgSeparator5
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
+        Invoke StdOut,ADDR MsgSeparator5
         Invoke StdOut,ADDR str6
         Invoke StdOut,ADDR MsgSeparator
         jmp exit_point

@@ -400,10 +400,14 @@ sogl_cycle:
         Invoke StdOut,ADDR str6
         Invoke StdOut,ADDR MsgLn
         ;Invoke StdOut,ADDR MsgSeparator
-        jmp exit_point
-     empty_str6:   
+        jmp empty_str6_merge
+     empty_str6: 
+        Invoke StdOut,ADDR MsgEmpty  
+     empty_str6_merge: 
+        jmp empty_str2_merge
      empty_str2: 
         Invoke StdOut,ADDR MsgEmpty
+     empty_str2_merge:
      exit_point:
          Invoke StdOut,ADDR MsgExit
          Invoke StdIn,ADDR inbuf,LengthOf inbuf		

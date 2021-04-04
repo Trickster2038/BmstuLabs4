@@ -399,16 +399,16 @@ sogl_cycle:
        
        ;=============================
        
-       lea EDI, str6
-         ;mov EBX, i1
+         ; empty check   
+         lea EDI, str6
          mov AL, Space
          mov ECX, i6
          repe scasb
      je empty_str6
        
-       Invoke StdIn,ADDR inbuf,LengthOf inbuf
+        Invoke StdIn,ADDR inbuf,LengthOf inbuf
        
-       Invoke StdOut,ADDR MsgSeparator5
+        Invoke StdOut,ADDR MsgSeparator5
         Invoke StdOut,ADDR str6
         Invoke StdOut,ADDR MsgSeparator
         jmp exit_point

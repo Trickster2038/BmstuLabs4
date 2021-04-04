@@ -12,7 +12,7 @@ IncludeLib masm32.lib
          .CONST
 MsgExit  DB    "Press Enter to Exit",0AH,0DH,0
 MsgEmpty  DB    0AH,0DH,"Result is empty",0AH,0DH,0
-MsgResult  DB    0AH,0DH,"Result: "
+MsgResult  DB    0AH,0DH,"Result: ", 0
 ;MsgSeparator  DB    0AH,0DH,"==================",0AH,0DH,0
 ReqStr DB 'Input string: ',13,10,0
 ;MsgGlas DB 'glasnay found',13,10,0
@@ -398,9 +398,12 @@ sogl_cycle:
         ;Invoke StdOut,ADDR MsgSeparator5
         Invoke StdOut,ADDR MsgResult
         Invoke StdOut,ADDR str6
+        Invoke StdOut,ADDR MsgLn
         ;Invoke StdOut,ADDR MsgSeparator
-        jmp exit_point
-     empty_str6:   
+        jmp empty_str6_merge
+     empty_str6: 
+        Invoke StdOut,ADDR MsgEmpty  
+     empty_str6_merge: 
      empty_str2: 
         Invoke StdOut,ADDR MsgEmpty
      exit_point:
