@@ -23,7 +23,7 @@ _3 WORD 3
 X SDWORD 4
 
          .DATA
-Matr SDWORD 25 DUP (7)
+Matr SDWORD 3 DUP (1, -45, -2, 3, 5, 15, 48)
 log db 20 dup (?)
          .DATA?
 Cnt byte ?
@@ -49,46 +49,32 @@ Start:
          Invoke StdOut,ADDR reqHello
          
 ;=================== input cycle ================
-         
-;         mov EBX, 0
-;         in_cycle:
-;            Invoke StdOut,ADDR reqMatr
-;            Invoke StdIn,ADDR buffer,LengthOf buffer
-;            Invoke StripLF,ADDR buffer
-;            Invoke atol,ADDR buffer ;result in EAX
-;            mov Matr[EBX*4], EAX
-;            inc EBX
-;            cmp EBX,21
-;            jne in_cycle
-
-         Invoke StdOut,ADDR MsgLn   
-         Invoke StdOut,ADDR reqEcho
-         Invoke StdOut,ADDR MsgLn
           
-          mov i,0
-          mov j,0
-          alt_out_cycle0:
-              mov j,0
-              ;Invoke StdOut,ADDR MsgLn
-              alt_in_cycle0:
-                mov EBX,i
-                mov ECX,j
-                
-                Invoke StdOut,ADDR reqMatr
-                Invoke StdIn,ADDR buffer,LengthOf buffer
-                Invoke StripLF,ADDR buffer
-                Invoke atol,ADDR buffer ;result in EAX
-                
-                mov Matr[EBX+ECX], EAX
-                ;Invoke dwtoa,Matr[EBX+ECX],ADDR outstr
-                ;Invoke StdOut,ADDR outstr
-                ;Invoke StdOut,ADDR MsgSpace
-                add j,4
-                cmp j,12
-              jl alt_in_cycle0
-            add i,12
-            cmp i,84
-            jl alt_out_cycle0
+;          mov i,0
+;          mov j,0
+;          alt_out_cycle0:
+;              mov j,0
+;              ;Invoke StdOut,ADDR MsgLn
+;              alt_in_cycle0:
+;                              
+;                Invoke StdOut,ADDR reqMatr
+;                Invoke StdIn,ADDR buffer,LengthOf buffer
+;                Invoke StripLF,ADDR buffer
+;                Invoke atol,ADDR buffer ;result in EAX
+;                
+;                mov EBX,i
+;                mov ECX,j
+;                
+;                mov Matr[EBX+ECX], EAX
+;                ;Invoke dwtoa,Matr[EBX+ECX],ADDR outstr
+;                ;Invoke StdOut,ADDR outstr
+;                ;Invoke StdOut,ADDR MsgSpace
+;                add j,4
+;                cmp j,12
+;              jl alt_in_cycle0
+;            add i,12
+;            cmp i,84
+;            jl alt_out_cycle0
             
 ;=========== echo cycle =============================
             
@@ -110,11 +96,31 @@ Start:
                 add j,4
                 cmp j,12
               jl alt_in_cycle
-            add i,12
-            cmp i,84
+            add i,12 ; 3 * size
+            cmp i,84 ; 7 * 3 * size
             jl alt_out_cycle
             
           Invoke StdOut,ADDR MsgLn
+          
+         Invoke StdOut,ADDR MsgLn   
+         Invoke StdOut,ADDR reqEcho
+         Invoke StdOut,ADDR MsgLn
+         
+         mov EBX, 84
+         mov ECX, 7
+         echo_cycle_1:
+            push ECX
+            mov ECX, 3
+            echo_cycle_2:
+                push ECX
+                Invoke dwtoa,Matr[EBX],ADDR outstr
+                Invoke StdOut,ADDR outstr
+                Invoke StdOut,ADDR MsgSpace
+                sub EBX, 4
+                pop ECX
+            loop echo_cycle_2
+            pop ECX
+         loop echo_cycle_2 
 ;========== deleting cycle =========
 
         mov i,0

@@ -23,7 +23,7 @@ _3 WORD 3
 X SDWORD 4
 
          .DATA
-Matr SDWORD 5 DUP (1,-2,-3,4,5)
+Matr SDWORD 3 DUP (1, -45, -2, 3, 5, 15, 48)
 log db 20 dup (?)
          .DATA?
 Cnt byte ?
@@ -96,11 +96,35 @@ Start:
                 add j,4
                 cmp j,12
               jl alt_in_cycle
-            add i,12
-            cmp i,84
+            add i,12 ; 3 * size
+            cmp i,84 ; 7 * 3 * size
             jl alt_out_cycle
             
           Invoke StdOut,ADDR MsgLn
+          
+         Invoke StdOut,ADDR MsgLn   
+         Invoke StdOut,ADDR reqEcho
+         Invoke StdOut,ADDR MsgLn
+         
+         mov EBX, 0
+         mov ECX, 7
+         echo_cycle_1:
+            push ECX
+            Invoke StdOut,ADDR MsgLn
+            pop ECX
+            
+            push ECX
+            mov ECX, 3
+            echo_cycle_2:
+                push ECX
+                Invoke dwtoa,Matr[EBX],ADDR outstr
+                Invoke StdOut,ADDR outstr
+                Invoke StdOut,ADDR MsgSpace
+                pop ECX
+                add EBX, 4
+            loop echo_cycle_2
+            pop ECX
+         loop echo_cycle_1
 ;========== deleting cycle =========
 
         mov i,0

@@ -76,9 +76,31 @@ Start:
 ;            cmp i,84
 ;            jl alt_out_cycle0
             
+     
+         Invoke StdOut,ADDR MsgLn
+         
+         mov EBX, 0
+         mov ECX, 7
+         inp_cycle_1:
+            push ECX
+            mov ECX, 3
+            inp_cycle_2:
+                push ECX
+                
+                Invoke StdOut,ADDR reqMatr
+                Invoke StdIn,ADDR buffer,LengthOf buffer
+                Invoke StripLF,ADDR buffer
+                Invoke atol,ADDR buffer ;result in EAX
+                mov Matr[EBX], EAX
+                
+                pop ECX
+                add EBX, 4
+            loop inp_cycle_2
+            pop ECX
+         loop inp_cycle_1
 ;=========== echo cycle =============================
             
-         Invoke StdOut,ADDR MsgLn   
+ comment $        Invoke StdOut,ADDR MsgLn   
          Invoke StdOut,ADDR reqEcho
          Invoke StdOut,ADDR MsgLn
           
@@ -96,11 +118,35 @@ Start:
                 add j,4
                 cmp j,12
               jl alt_in_cycle
-            add i,12
-            cmp i,84
+            add i,12 ; 3 * size
+            cmp i,84 ; 7 * 3 * size
             jl alt_out_cycle
             
-          Invoke StdOut,ADDR MsgLn
+          Invoke StdOut,ADDR MsgLn $
+          
+         Invoke StdOut,ADDR MsgLn   
+         Invoke StdOut,ADDR reqEcho
+         Invoke StdOut,ADDR MsgLn
+         
+         mov EBX, 0
+         mov ECX, 7
+         echo_cycle_1:
+            push ECX
+            Invoke StdOut,ADDR MsgLn
+            pop ECX
+            
+            push ECX
+            mov ECX, 3
+            echo_cycle_2:
+                push ECX
+                Invoke dwtoa,Matr[EBX],ADDR outstr
+                Invoke StdOut,ADDR outstr
+                Invoke StdOut,ADDR MsgSpace
+                pop ECX
+                add EBX, 4
+            loop echo_cycle_2
+            pop ECX
+         loop echo_cycle_1
 ;========== deleting cycle =========
 
         mov i,0
