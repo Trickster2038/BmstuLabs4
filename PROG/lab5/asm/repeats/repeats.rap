@@ -1,0 +1,114 @@
+[Project]
+Assembler=masm
+Type=Console App
+Description=search of repeats in str
+Backup=$P\Bak\
+Group=1
+GroupExpand=1
+Debug=0
+[Files]
+1=repeats.Asm
+2=repeats.Inc
+[MakeFiles]
+0=repeats.rap
+1=repeats.rc
+2=repeats.asm
+3=repeats.obj
+4=repeats.res
+5=repeats.exe
+6=repeats.def
+7=repeats.dll
+8=repeats.txt
+9=repeats.lib
+10=repeats.mak
+11=repeats.hla
+12=repeats.com
+13=repeats.ocx
+14=repeats.idl
+15=repeats.tlb
+16=repeats.sys
+[MakeDef]
+MenuMake=0,1,1,1,1,1,1,1,0,0
+;x=FileToDelete/CheckExistsOnExit,
+;(O)utput/(C)onsole/0,Command,
+;MakeFile1[,MakeFile2[,MakeFile3...]]
+1=4,O,$B\RC.EXE /v,1
+2=3,O,$B\ML.EXE /c /coff repeats.Asm 
+3=5,O,$B\LINK.EXE /SUBSYSTEM:CONSOLE /RELEASE /VERSION:4.0 /LIBPATH:"$L" /OUT:"$5",3
+4=0,0,,5
+5=rsrc.obj,O,$B\CVTRES.EXE,rsrc.res
+6=*.obj,O,$B\ML.EXE /c /coff /Cp /nologo /I"$I",*.asm
+7=0,0,"$E\OllyDbg\OllyDbg.exe",5
+11=4,O,$B\RC.EXE /v,1
+12=3,O,$B\ML.EXE /c /coff /Cp /Zi /nologo /I"$I",2
+13=5,O,$B\LINK.EXE /SUBSYSTEM:CONSOLE /DEBUG /VERSION:4.0 /LIBPATH:"$L" /OUT:"$5",3
+14=0,0,,5
+15=rsrc.obj,O,$B\CVTRES.EXE,rsrc.res
+16=*.obj,O,$B\ML.EXE /c /coff /Cp /nologo /I"$I",*.asm
+17=0,0,"$E\OllyDbg\OllyDbg.exe",5
+Menu=0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0
+[AutoLoad]
+1=1
+[Group]
+Group=Added files,Assembly,Resources,Misc,Modules
+1=2
+2=2
+[VersionControl]
+Settings=1246
+Milestones=129
+MilestoneEvery=10
+MilestoneEveryCurrent=0
+MilestoneOnBuild=0.0.0.0
+MilestoneOnTime=2
+MilestoneOnDate=0
+MilestoneOnDateWhen=1
+MilestoneOnDateStatus=0
+MilestoneOnDateDate=18
+MilestoneOnDateTimeYear=2021
+MilestoneOnDateTimeMonth=4
+MilestoneOnDateTimeDate=18
+MilestoneOnDateTimeHour=21
+MilestoneOnDateTimeMin=5
+MilestoneOnDateTimeSec=44
+MilestoneOnDateTimeStatus=0
+BackupLocation=C:\RADASM\Masm\Projects\VCBackups\
+CompressionLevel=0
+DefaultComment=Project $N, $Z, Backup Created On $D At $T.
+ExcludeExt1=\
+ExcludeExt2=\
+ExcludeExt3=\
+ExcludeExt4=\
+FileVerLength=4
+FileVer2Range=0
+FileVer3Range=0
+FileVer4Range=0
+ProductVerLength=4
+ProductVer2Range=0
+ProductVer3Range=0
+ProductVer4Range=0
+[Colref]
+0=00FFFFFF
+1=00FFFFFF
+2=00FFFFFF
+3=00FFFFFF
+4=00FFFFFF
+5=00FFFFFF
+6=00FFFFFF
+7=00FFFFFF
+[Collapse]
+1=
+[Size]
+1=0,0,743,612,145
+[BookMark]
+0=
+1=
+2=
+3=
+4=
+5=
+6=
+7=
+8=
+9=
+[BreakPoint]
+0=
