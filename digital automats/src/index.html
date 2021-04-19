@@ -5,21 +5,27 @@
     <title>Камень, ножницы, бумага</title>
     <script src="automat.js"></script>
     <link rel="stylesheet" href="bootstrap.css">
-<style>
-    #mainCard{
-        width: fit-content;
-        height: fit-content;
-        padding: 16px;
-        margin: auto;
-        margin-top: 256px;
-    }
-    #buttonsDiv{
-        margin-top: 16px;
-    }
-    body {
-    background: url(background.jpg) repeat;
-   }
-</style>
+    <style>
+        #mainCard {
+            width: fit-content;
+            height: fit-content;
+            padding: 16px;
+            margin: auto;
+            margin-top: 256px;
+        }
+
+        #buttonsDiv {
+            margin-top: 16px;
+        }
+
+        body {
+            background: url(background.jpg) repeat;
+        }
+
+        button {
+            margin: 4px;
+        }
+    </style>
 </head>
 
 <body>
@@ -33,9 +39,9 @@
                 <label for="resultInput" class="form-label">Результат:</label>
                 <input id="resultInput" class="form-control" disabled>
                 <div id="buttonsDiv">
-                <button type="button" class="btn btn-outline-primary" onclick="changeState(0)">Камень</button>
-                <button type="button" class="btn btn-outline-primary" onclick="changeState(1)">Ножницы</button>
-                <button type="button" class="btn btn-outline-primary" onclick="changeState(2)">Бумага</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="changeState(0)">Камень</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="changeState(1)">Ножницы</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="changeState(2)">Бумага</button>
                 </div>
             </div>
         </form>
