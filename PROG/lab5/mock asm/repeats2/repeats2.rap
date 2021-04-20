@@ -1,0 +1,54 @@
+[Project]
+Assembler=masm
+Type=Console App
+Description=-
+Backup=$P\Bak\
+Group=1
+GroupExpand=1
+[Files]
+1=repeats2.Asm
+2=repeats2.Inc
+[MakeFiles]
+0=repeats2.rap
+1=repeats2.rc
+2=repeats2.asm
+3=repeats2.obj
+4=repeats2.res
+5=repeats2.exe
+6=repeats2.def
+7=repeats2.dll
+8=repeats2.txt
+9=repeats2.lib
+10=repeats2.mak
+11=repeats2.hla
+12=repeats2.com
+13=repeats2.ocx
+14=repeats2.idl
+15=repeats2.tlb
+16=repeats2.sys
+[MakeDef]
+MenuMake=0,1,1,1,1,1,1,1,0,0
+;x=FileToDelete/CheckExistsOnExit,
+;(O)utput/(C)onsole/0,Command,
+;MakeFile1[,MakeFile2[,MakeFile3...]]
+1=4,O,$B\RC.EXE /v,1
+2=3,O,$B\ML.EXE /c /coff /Cp /nologo /I"$I",2
+3=5,O,$B\LINK.EXE /SUBSYSTEM:CONSOLE /RELEASE /VERSION:4.0 /LIBPATH:"$L" /OUT:"$5",3
+4=0,0,,5
+5=rsrc.obj,O,$B\CVTRES.EXE,rsrc.res
+6=*.obj,O,$B\ML.EXE /c /coff /Cp /nologo /I"$I",*.asm
+7=0,0,"$E\OllyDbg\OllyDbg.exe",5
+11=
+12=3,O,$B\ML.EXE /c /coff /Cp /Zi /nologo /I"$I",2
+13=5,O,$B\LINK.EXE /SUBSYSTEM:CONSOLE /DEBUG /VERSION:4.0 /LIBPATH:"$L" /OUT:"$5",3
+14=0,0,,5
+15=
+16=*.obj,O,$B\ML.EXE /c /coff /Cp /nologo /I"$I",*.asm
+17=0,0,"$E\OllyDbg\OllyDbg.exe",5
+Menu=0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0
+[AutoLoad]
+1=1
+[Group]
+Group=Added files,Assembly,Resources,Misc,Modules
+1=2
+2=2
