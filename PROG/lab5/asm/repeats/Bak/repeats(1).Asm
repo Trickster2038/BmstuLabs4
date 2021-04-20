@@ -1,14 +1,16 @@
          .586
-         .MODEL flat
+         .MODEL flat, stdcall
 
          .CODE
 
-public _str_repeats@0
-_str_repeats@0 proc
+public STR_REPEATS
+externdef ?PRINT@@YGXXZ:near
+STR_REPEATS proc
     
     XOR    EAX,EAX
+    call ?PRINT@@YGXXZ
     ret
     
-_str_repeats@0 endp
+STR_REPEATS endp
 end
 
