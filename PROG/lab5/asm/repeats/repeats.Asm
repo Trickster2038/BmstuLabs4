@@ -4,16 +4,24 @@
 example_str db "str from asm"
          .CODE
 
-public _STR_REPEATS@0
+public _STR_REPEATS@4
 externdef ?PRINT@@YGXPAD@Z:near
-_STR_REPEATS@0 proc
+_STR_REPEATS@4 proc
     
     XOR    EAX,EAX
+    
     lea eax, example_str
+    mov ebx, ESP
+    mov eax, [ebx+4]
+    ;========================
+    
+    ;code there
+    
+    ;========================
     push eax
     call ?PRINT@@YGXPAD@Z
-    ret
+    ret 4
     
-_STR_REPEATS@0 endp
+_STR_REPEATS@4 endp
 end
 

@@ -11,7 +11,7 @@ int main()
     std::cin >> str;
     std::cout << str;
     char b = 'v';
-    STR_REPEATS();
+    STR_REPEATS(str);
     std::cout << "\nHello World!\n";
 }
 
