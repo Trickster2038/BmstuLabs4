@@ -124,7 +124,7 @@ Start:
                 sub EBX, 4
             loop echo_cycle_2
             pop ECX
-         loop echo_cycle_2 
+         loop echo_cycle_1
 ;========== deleting cycle =========
 
         mov i,0

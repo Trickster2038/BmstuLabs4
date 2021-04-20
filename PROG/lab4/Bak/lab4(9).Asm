@@ -96,11 +96,31 @@ Start:
                 add j,4
                 cmp j,12
               jl alt_in_cycle
-            add i,12
-            cmp i,84
+            add i,12 ; 3 * size
+            cmp i,84 ; 7 * 3 * size
             jl alt_out_cycle
             
           Invoke StdOut,ADDR MsgLn
+          
+         Invoke StdOut,ADDR MsgLn   
+         Invoke StdOut,ADDR reqEcho
+         Invoke StdOut,ADDR MsgLn
+         
+         mov EBX, 84
+         mov ECX, 7
+         echo_cycle_1:
+            push ECX
+            mov ECX, 3
+            echo_cycle_2:
+                sub EBX, 4
+                push ECX
+                Invoke dwtoa,Matr[EBX],ADDR outstr
+                Invoke StdOut,ADDR outstr
+                Invoke StdOut,ADDR MsgSpace
+                pop ECX
+            loop echo_cycle_2
+            pop ECX
+         loop echo_cycle_2
 ;========== deleting cycle =========
 
         mov i,0

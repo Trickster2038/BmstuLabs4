@@ -163,7 +163,7 @@ Start:
                 
                 
                 cwd ;DX:AX = AX
-                idiv _3;AX:=(DX:AX):2   DX = remain
+                idiv _3;AX:=(DX:AX):3   DX = remain
                 add EAX,j
                 cwd ;DX:AX = AX
                 

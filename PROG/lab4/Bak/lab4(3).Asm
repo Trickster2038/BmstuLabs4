@@ -106,7 +106,7 @@ Start:
          Invoke StdOut,ADDR reqEcho
          Invoke StdOut,ADDR MsgLn
          
-         mov EBX, 84
+         mov EBX, 0
          mov ECX, 7
          echo_cycle_1:
             push ECX
@@ -121,7 +121,7 @@ Start:
                 Invoke StdOut,ADDR outstr
                 Invoke StdOut,ADDR MsgSpace
                 pop ECX
-                sub EBX, 4
+                add EBX, 4
             loop echo_cycle_2
             pop ECX
          loop echo_cycle_1

@@ -106,21 +106,21 @@ Start:
          Invoke StdOut,ADDR reqEcho
          Invoke StdOut,ADDR MsgLn
          
-     comment $    mov EBX, 84
+         mov EBX, 84
          mov ECX, 7
          echo_cycle_1:
             push ECX
             mov ECX, 3
             echo_cycle_2:
-                sub EBX, 4
                 push ECX
                 Invoke dwtoa,Matr[EBX],ADDR outstr
                 Invoke StdOut,ADDR outstr
                 Invoke StdOut,ADDR MsgSpace
+                sub EBX, 4
                 pop ECX
             loop echo_cycle_2
             pop ECX
-         loop echo_cycle_2 $
+         loop echo_cycle_2 
 ;========== deleting cycle =========
 
         mov i,0

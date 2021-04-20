@@ -76,9 +76,7 @@ Start:
 ;            cmp i,84
 ;            jl alt_out_cycle0
             
-            
-Invoke StdOut,ADDR MsgLn   
-         Invoke StdOut,ADDR reqEcho
+     
          Invoke StdOut,ADDR MsgLn
          
          mov EBX, 0

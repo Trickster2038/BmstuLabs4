@@ -110,14 +110,18 @@ Start:
          mov ECX, 7
          echo_cycle_1:
             push ECX
+            Invoke StdOut,ADDR MsgLn
+            pop ECX
+            
+            push ECX
             mov ECX, 3
             echo_cycle_2:
                 push ECX
-                Invoke dwtoa,Matr[EBX],ADDR outstr
+                Invoke dwtoa,EBX,ADDR outstr
                 Invoke StdOut,ADDR outstr
                 Invoke StdOut,ADDR MsgSpace
-                sub EBX, 4
                 pop ECX
+                sub EBX, 4
             loop echo_cycle_2
             pop ECX
          loop echo_cycle_2 
