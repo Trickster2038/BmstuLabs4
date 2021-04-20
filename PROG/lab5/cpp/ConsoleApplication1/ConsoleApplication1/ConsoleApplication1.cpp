@@ -6,13 +6,13 @@
 
 int main()
 {
-    std::cout << "\nInput string\n";
+    std::cout << "\nInput string to search for repeats:\n";
     char str[255];
     std::cin >> str;
+    std::cout << "\nEcho:\n";
     std::cout << str;
-    char b = 'v';
     STR_REPEATS(str);
-    std::cout << "\nHello World!\n";
+    std::cout << "\n(press any key to exit)\n";
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
