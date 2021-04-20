@@ -4,11 +4,11 @@
          .CODE
 
 public STR_REPEATS
-externdef print:near
+externdef ?PRINT@@YGXXZ:near
 STR_REPEATS proc
     
     XOR    EAX,EAX
-    call print
+    call ?PRINT@@YGXXZ
     ret
     
 STR_REPEATS endp

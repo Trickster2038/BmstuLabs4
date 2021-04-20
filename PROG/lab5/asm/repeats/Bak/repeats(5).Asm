@@ -3,14 +3,14 @@
 
          .CODE
 
-public _STR_REPEATS
+public STR_REPEATS
 externdef print:near
-_STR_REPEATS proc
+STR_REPEATS proc
     
     XOR    EAX,EAX
     call print
     ret
     
-_STR_REPEATS endp
+STR_REPEATS endp
 end
 

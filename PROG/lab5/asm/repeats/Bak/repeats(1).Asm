@@ -1,16 +1,19 @@
          .586
-         .MODEL flat, stdcall
-
+         .MODEL flat
+         .DATA
+example_str db "str from asm"
          .CODE
 
-public STR_REPEATS
+public _STR_REPEATS@0
 externdef ?PRINT@@YGXXZ:near
-STR_REPEATS proc
+_STR_REPEATS@0 proc
     
     XOR    EAX,EAX
+    lea eax, example_str
+    push eax
     call ?PRINT@@YGXXZ
     ret
     
-STR_REPEATS endp
+_STR_REPEATS@0 endp
 end
 

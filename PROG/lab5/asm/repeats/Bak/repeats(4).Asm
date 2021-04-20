@@ -3,8 +3,8 @@
 
          .CODE
 
-public _STR_REPEATS
-externdef print:near
+public STR_REPEATS
+externdef PRINT:near
 STR_REPEATS proc
     
     XOR    EAX,EAX
