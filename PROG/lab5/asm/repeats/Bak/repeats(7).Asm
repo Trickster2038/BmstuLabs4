@@ -24,7 +24,10 @@ _STR_REPEATS@4 proc
     
     ;code there
     
-    mov test_str, eax
+    mov ecx, 255
+    mov esi, eax
+    lea edi, test_str
+    rep movsb
     
     mov s_length, 254
          mov res_lg, 0

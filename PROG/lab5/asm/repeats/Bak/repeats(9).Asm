@@ -2,12 +2,13 @@
          .MODEL flat
          .DATA
 example_str db "str from asm"
-pattern    DB    100 DUP (0)
+pattern    DB    255 DUP (0)
 res_lg SDWORD 0
 i_reps SDWORD 0
 s_length DWORD 0
 s_pos DWORD 0
-result  DB  100 DUP (0)
+result  DB  255 DUP (0)
+test_str  byte ptr
          .CODE
 
 public _STR_REPEATS@4
@@ -23,16 +24,18 @@ _STR_REPEATS@4 proc
     
     ;code there
     
-    mov s_length, 19
+    lea test_str, eax
+    
+    mov s_length, 254
          mov res_lg, 0
          
          ;lea ESI, test_str
-         mov ECX, 20
+         mov ECX, 255
          cycle_1:
             push ECX
             
             mov s_pos, 0
-            mov ECX, 20
+            mov ECX, 255
             sub ECX, s_length
             cycle_2:
                 push ECX
@@ -58,7 +61,7 @@ _STR_REPEATS@4 proc
                 
                 mov i_reps, 0 
                 mov s_pos, 0
-                mov ECX, 20
+                mov ECX, 255
                 sub ECX, s_length
                 cycle_3:
                     push ECX

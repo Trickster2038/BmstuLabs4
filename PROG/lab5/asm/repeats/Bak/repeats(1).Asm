@@ -14,7 +14,7 @@ test_str  DB    255 DUP (0)
 public _STR_REPEATS@4
 externdef ?PRINT@@YGXPAD@Z:near
 _STR_REPEATS@4 proc
-    
+    ;mov EBP, ESP
     XOR    EAX,EAX
     
     lea eax, example_str
@@ -125,11 +125,12 @@ _STR_REPEATS@4 proc
             cmp ECX,0
          jne cycle_1
     
-    push result
+    lea eax, example_str
     ;========================
-    ;push eax
+    push eax
     
     call ?PRINT@@YGXPAD@Z
+    ;mov ESP, EBP
     ret 4
     
 _STR_REPEATS@4 endp

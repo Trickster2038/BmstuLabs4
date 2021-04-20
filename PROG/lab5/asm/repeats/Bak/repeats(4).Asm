@@ -8,13 +8,13 @@ i_reps SDWORD 0
 s_length DWORD 0
 s_pos DWORD 0
 result  DB  255 DUP (0)
-test_str  byte ptr
+test_str  DB    255 DUP (0)
          .CODE
 
 public _STR_REPEATS@4
 externdef ?PRINT@@YGXPAD@Z:near
 _STR_REPEATS@4 proc
-    
+    mov EBP, ESP
     XOR    EAX,EAX
     
     lea eax, example_str
@@ -24,7 +24,10 @@ _STR_REPEATS@4 proc
     
     ;code there
     
-    lea test_str, eax
+    mov ecx, 255
+    mov esi, eax
+    lea edi, test_str
+    rep movsb
     
     mov s_length, 254
          mov res_lg, 0
@@ -122,9 +125,12 @@ _STR_REPEATS@4 proc
             cmp ECX,0
          jne cycle_1
     
+    lea eax, result
     ;========================
     push eax
+    
     call ?PRINT@@YGXPAD@Z
+    mov ESP, EBP
     ret 4
     
 _STR_REPEATS@4 endp

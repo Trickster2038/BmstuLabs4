@@ -8,7 +8,9 @@ int main()
 {
     std::cout << "\nInput string to search for repeats:\n";
     char str[255];
-    std::cin >> str;
+    std::cin.getline(str, 255);
+    //scanf_s("%s", str);
+    //std::cin >> str;
     std::cout << "\nEcho:\n";
     std::cout << str;
     STR_REPEATS(str);

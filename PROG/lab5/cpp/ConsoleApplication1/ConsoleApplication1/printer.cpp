@@ -5,7 +5,7 @@
 extern void __stdcall PRINT(char* str) {
 	int lg;
 	lg = strlen(str);
-	if (true) {
+	if (lg > 0) {
 		printf("\nResult: %s", str);
 	}
 	else {
