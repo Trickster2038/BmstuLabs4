@@ -11,5 +11,6 @@ extern void __stdcall PRINT(char* str) {
 	else {
 		std::cout << "\nNo repeats found\n";
 	}
-
+	char buf[255];
+	std::cin.getline(buf, 255);
 }
