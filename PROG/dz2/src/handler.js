@@ -247,3 +247,31 @@ validRecord("var fg :record af, gh :integer; aff, gh1: byte; \
 //validSameFields("af, gh :intger")
 //validIDs("4abc3, regg")
 //validKey("421f:")
+
+function validUiCall(){
+    codeInput = document.getElementById("codeInput")
+    resultLine = document.getElementById("resultInput")
+    code = codeInput.value
+    try{
+        validRecord(code)
+        resultLine.value = "Code is correct"
+        resultLine.className = "bg-success form-control"
+    }catch(e){
+        resultLine.value = e
+        resultLine.className = "bg-danger form-control"
+    }
+}
+
+function logOnUi(x)
+{
+    logArea = document.getElementById("logTextArea")
+    logArea.value += x + "\n"
+}
+
+function resetUi(){
+    resultLine = document.getElementById("resultInput")
+    resultLine.value = ""
+    resultLine.className = "form-control"
+    logArea = document.getElementById("logTextArea")
+    logArea.value = ""
+}

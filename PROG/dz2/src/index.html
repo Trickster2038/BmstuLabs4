@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Камень, ножницы, бумага</title>
+    <title>Pascal Record Grammar</title>
     <script src="handler.js"></script>
     <link rel="stylesheet" href="bootstrap.css">
     <style>
@@ -21,9 +21,18 @@
         body {
             background: url(background.jpg) repeat;
         }
-
         button {
             margin: 4px;
+        }
+        th {
+            padding: 8px;
+        }
+        #checkBtn {
+            width: -webkit-fill-available;
+        }
+        textarea {
+            resize: none;
+            scroll-behavior: auto;
         }
     </style>
 </head>
@@ -32,16 +41,24 @@
     <div id="mainCard" class="card">
         <form>
             <div>
-                <label for="nameInput" class="form-label">Ход игрока:</label>
-                <input id="nameInput" class="form-control" disabled>
-                <label for="stateInput" class="form-label">Состояние:</label>
-                <input id="stateInput" class="form-control" disabled>
-                <label for="resultInput" class="form-label">Результат:</label>
+                <div id="fLine">
+                    <table>
+                        <tr>
+                            <th>
+                                <label for="codeInput" class="form-label">Your code:</label>
+                                <textarea id="codeInput" class="form-control" cols="80" rows="16" oninput="resetUi()"></textarea>
+                            </th>
+                            <th><label for="logTextarea" class="form-label">Log:</label>
+                                <textarea id="logTextarea" class="form-control" cols="16"
+                                    rows="16" disabled></textarea>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <label for="resultInput" class="form-label">Result</label>
                 <input id="resultInput" class="form-control" disabled>
                 <div id="buttonsDiv">
-                    <button type="button" class="btn btn-outline-primary" onclick="changeState(0)">Камень</button>
-                    <button type="button" class="btn btn-outline-primary" onclick="changeState(1)">Ножницы</button>
-                    <button type="button" class="btn btn-outline-primary" onclick="changeState(2)">Бумага</button>
+                    <button type="button" id="checkBtn" class="btn btn-primary" onclick="validUiCall()">Check</button>
                 </div>
             </div>
         </form>
