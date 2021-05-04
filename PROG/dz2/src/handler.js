@@ -14,17 +14,16 @@
 // TODO <идентификатор>, <ключ>, <тип> - регулярки
 
 function validID(x){
-    var regex1 = /[ :;]{1,}/m 
-    tokens = x.split(/[ :;]{1,}/)
-    x = x.split(/[ :;]{1,}/)[1]
-    //x = regex1.exec(x)[1]
-    console.log(x)
-    flag = /^[_a-z]+[_a-z0-9]{0,}$/.test(tokens[0])
-    if(flag){
-        console.log("normal ID")
+    //var regex1 = /[ :;]{1,}/m 
+    //flag = /^[_a-z]+[_a-z0-9]{0,}$/.test(tokens[0])
+    if(/[_a-z]$/.test(x[0])){
+        while(!(/[ :;]$/.test(x[0]))){
+            x = x.slice(1)
+        }
     } else {
-        throw ("Wrong ID on " + x)
+        throw "Wrong ID"
     }
+    console.log(x)
     return x
 }
 
