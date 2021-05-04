@@ -196,7 +196,11 @@ function validRecord(x){
         flag++
         x = x.slice(3)
         x = x.trim()
+        let xcpy
+        xcpy = x
         x = validID(x)
+        //logOnUi("Record name: "+xcpy.slice(0,xcpy.length-x.length))
+        logOnUi("Record name: "+ xcpy.slice(0, (xcpy.length-x.length)))
         x = x.trim()
         if(x.slice(0,7)==":record"){
             flag++
@@ -231,8 +235,8 @@ function validRecord(x){
 //validStaticFields("af, gh :integer; aff, gh1 :byte end;")
 //validRecord("var fg :record af, gh :integer; aff, gh1 :byte end;")
 
-validRecord("var fg :record af, gh :integer; aff, gh1: byte; \
-        case saa of 42: (ab, gh: integer); 3213: (_ab, gd3h: byte) end;")
+//validRecord("var fg :record af, gh :integer; aff, gh1: byte; \
+//        case saa of 42: (ab, gh: integer); 3213: (_ab, gd3h: byte) end;")
 
 
 // ERROR TESTS
