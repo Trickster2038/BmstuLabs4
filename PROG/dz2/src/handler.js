@@ -1,29 +1,9 @@
-// рекурсивный спуск
-// Бэкус-Наур
-// <запись> ::= var <идентификатор>:record <постоянные поля>; <поля с вариантами> end;
-//              |var <идентификатор>:record <постоянные поля> end;
-// <постоянные поля> ::= <поля одного типа>
-//                    |<поля одного типа>;<постоянные поля>
-// <поля с вариантами> ::= case <идентификатор> of <случаи>
-// <случаи> = <случай>|<случай>;<случаи>
-// <случай> ::= <ключ>: (<поля одного типа>)
-// ИНОГДА НУЖНА ; В КОНЦЕ ?
-
-// <поля одного типа> ::= <идентификаторы>: <тип>
-// <идентификаторы> ::= <идентификатор>
-//                      |<идентификатор>,<идентификаторы>
-// TODO <идентификатор>, <ключ>, <тип> - регулярки
-
 function validID(x) {
-    //var regex1 = /[ :;]{1,}/m 
-    //flag = /^[_a-z]+[_a-z0-9]{0,}$/.test(tokens[0])
-    //console.log("validingID")
     x = x.trim()
     console.log("validingID:" + x)
     if (/[_a-z]$/.test(x[0])) {
         while ((/[_a-z0-9]$/.test(x[0])) && x.length > 0) {
             x = x.slice(1)
-            //console.log("loop")
         }
     } else {
         throw "Wrong ID"
@@ -33,7 +13,6 @@ function validID(x) {
 }
 
 function validIDs(x) {
-    //console.log("validingIDs")
     x = x.trim()
     console.log("validingIDs:" + x)
     x = validID(x)
@@ -41,7 +20,6 @@ function validIDs(x) {
         x = x.slice(1)
         x = validIDs(x)
     } else {
-        // nothing?
         console.log("validingIDs end")
     }
     return x
@@ -50,6 +28,7 @@ function validIDs(x) {
 function validType(x) {
     x = x.trim()
     console.log("validingType:" + x)
+    let xcpy = x
     if (x.slice(0, 4) == "byte" || x.slice(0, 4) == "char" || x.slice(0, 4) == "real") {
         x = x.slice(4)
     } else if (x.slice(0, 7) == "integer") {
@@ -57,6 +36,7 @@ function validType(x) {
     } else {
         throw "Wrong Type"
     }
+    logOnUi("Type: "+xcpy.slice(0,xcpy.length-x.length))
     x = x.trim()
     return x
 }
@@ -64,7 +44,10 @@ function validType(x) {
 function validSameFields(x) {
     x = x.trim()
     console.log("validingSameFields:" + x)
+    let xcpy
+    xcpy = x
     x = validIDs(x)
+    logOnUi("\nFields: "+ xcpy.slice(0,xcpy.length-x.length))
     x = x.trim()
     if (x[0] == ":") {
         x = x.slice(1)
@@ -199,7 +182,6 @@ function validRecord(x){
         let xcpy
         xcpy = x
         x = validID(x)
-        //logOnUi("Record name: "+xcpy.slice(0,xcpy.length-x.length))
         logOnUi("Record name: "+ xcpy.slice(0, (xcpy.length-x.length)))
         x = x.trim()
         if(x.slice(0,7)==":record"){
@@ -224,33 +206,7 @@ function validRecord(x){
     return x
 }
 
-//var str1 = "_abc3, feff, ghh"
-//str1 = validIDs(str1)
-//validType("integer")
-//validSameFields("af, gh :integer")
-//validKey("421:")
-//validCase("42: (ab, gh: integer)")
-//validCases("42: (ab, gh: integer); 3213: (_ab, gd3h: byte)")
-//validSwitch("case saa of 42: (ab, gh: integer); 3213: (_ab, gd3h: byte)")
-//validStaticFields("af, gh :integer; aff, gh1 :byte end;")
-//validRecord("var fg :record af, gh :integer; aff, gh1 :byte end;")
-
-//validRecord("var fg :record af, gh :integer; aff, gh1: byte; \
-//        case saa of 42: (ab, gh: integer); 3213: (_ab, gd3h: byte) end;")
-
-
-// ERROR TESTS
-
-//validRecord("var fg :record af, gh :integer; aff, gh1: byte; \
-// case saa of 42: (ab, gh: integer); 32f3: (_ab, gd3h: byte) end;")
-
-// validRecord("var fg :record af, gh :integer; aff, gh1 :byte nd;")
-//validStaticFields("af, gh :integer; aff, gh1 :bye end")
-//validCases("42: (ab, gh: integer); 3213: (1_ab, gd3h: byte)")
-// validCase("42: ab, gh: integer)")
-//validSameFields("af, gh :intger")
-//validIDs("4abc3, regg")
-//validKey("421f:")
+// =========================== UI Business-logic ===============================
 
 function validUiCall(){
     codeInput = document.getElementById("codeInput")

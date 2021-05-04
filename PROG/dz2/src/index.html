@@ -5,36 +5,7 @@
     <title>Pascal Record Grammar</title>
     <script src="handler.js"></script>
     <link rel="stylesheet" href="bootstrap.css">
-    <style>
-        #mainCard {
-            width: fit-content;
-            height: fit-content;
-            padding: 16px;
-            margin: auto;
-            margin-top: 128px;
-        }
-
-        #buttonsDiv {
-            margin-top: 16px;
-        }
-
-        body {
-            background: url(background.jpg) repeat;
-        }
-        button {
-            margin: 4px;
-        }
-        th {
-            padding: 8px;
-        }
-        #checkBtn {
-            width: -webkit-fill-available;
-        }
-        textarea {
-            resize: none;
-            scroll-behavior: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -46,11 +17,11 @@
                         <tr>
                             <th>
                                 <label for="codeInput" class="form-label">Your code:</label>
-                                <textarea id="codeInput" class="form-control" cols="80" rows="16" oninput="resetUi()"></textarea>
+                                <textarea id="codeInput" class="form-control" cols="80" rows="16"
+                                    oninput="resetUi()"></textarea>
                             </th>
                             <th><label for="logTextArea" class="form-label">Log:</label>
-                                <textarea id="logTextArea" class="form-control" cols="16"
-                                    rows="16" disabled></textarea>
+                                <textarea id="logTextArea" class="form-control" cols="16" rows="16" disabled></textarea>
                             </th>
                         </tr>
                     </table>
