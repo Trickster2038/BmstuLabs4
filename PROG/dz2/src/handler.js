@@ -94,7 +94,7 @@ function validKey(x) {
 }
 
 function validCase(x){
-    flag = 0
+    let flag = 0
     x = x.trim()
     console.log("validingCase:" + x)
     x = validKey(x)
@@ -137,13 +137,36 @@ function validCases(x){
     return x
 }
 
+function validSwitch(x){
+    let flag = 0
+    x = x.trim()
+    console.log("validingSwitch:" + x)
+    if(x.slice(0,4)=="case"){
+        flag++
+        x = x.slice(4)
+        x = validID(x)
+        x = x.trim()
+        if(x.slice(0,2)=="of"){
+            flag++
+            x = x.slice(2)
+            x = validCases(x)
+        }
+    }
+    if(flag != 2){
+        throw "Wrong Switch"
+    }
+    x = x.trim()
+    return x
+}
+
 var str1 = "_abc3, feff, ghh"
 str1 = validIDs(str1)
 //validType("integer")
 //validSameFields("af, gh :integer")
 //validKey("421:")
 //validCase("42: (ab, gh: integer)")
-validCases("42: (ab, gh: integer); 3213: (_ab, gd3h: byte)")
+//validCases("42: (ab, gh: integer); 3213: (_ab, gd3h: byte)")
+validSwitch("case saa of 42: (ab, gh: integer); 3213: (_ab, gd3h: byte)")
 
 // ERROR TESTS
 //validCases("42: (ab, gh: integer); 3213: (1_ab, gd3h: byte)")
