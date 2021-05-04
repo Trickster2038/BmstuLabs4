@@ -46,7 +46,41 @@ function validIDs(x){
     return x
 }
 
+function validType(x){
+    x = x.trim()
+    console.log("validingType:"+x)
+    if(x.slice(0,4) == "byte" || x.slice(0,4) == "char" || x.slice(0,4) == "real"){
+        x = x.slice(4)
+    } else if(x.slice(0,7) == "integer"){
+        x = x.slice(4)
+    } else {
+        throw "Wrong Type"
+    }
+    x = x.trim()
+    return x
+}
+
+function validSameFields(x){
+    x = x.trim()
+    console.log("validingSameFields:"+x)
+    x = validIDs(x)
+    x = x.trim()
+    if(x[0]==":"){
+        x = x.slice(1)
+        x = x.trim()
+        x = validType(x)
+        x = x.trim()
+    } else {
+        throw "Wrong Same Fields"
+    }
+    return x
+}
+
 var str1 = "_abc3, feff, ghh"
 str1 = validIDs(str1)
+validType("integer")
+validSameFields("af, gh :integer")
 
+// ERROR TESTS
+//validSameFields("af, gh :intger")
 //validIDs("4abc3, regg")
