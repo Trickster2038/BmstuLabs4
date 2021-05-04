@@ -1,0 +1,27 @@
+//var str1 = "_abc3, feff, ghh"
+//str1 = validIDs(str1)
+//validType("integer")
+//validSameFields("af, gh :integer")
+//validKey("421:")
+//validCase("42: (ab, gh: integer)")
+//validCases("42: (ab, gh: integer); 3213: (_ab, gd3h: byte)")
+//validSwitch("case saa of 42: (ab, gh: integer); 3213: (_ab, gd3h: byte)")
+//validStaticFields("af, gh :integer; aff, gh1 :byte end;")
+//validRecord("var fg :record af, gh :integer; aff, gh1 :byte end;")
+
+//validRecord("var fg :record af, gh :integer; aff, gh1: byte; \
+//        case saa of 42: (ab, gh: integer); 3213: (_ab, gd3h: byte) end;")
+
+
+// ERROR TESTS
+
+//validRecord("var fg :record af, gh :integer; aff, gh1: byte; \
+// case saa of 42: (ab, gh: integer); 32f3: (_ab, gd3h: byte) end;")
+
+// validRecord("var fg :record af, gh :integer; aff, gh1 :byte nd;")
+//validStaticFields("af, gh :integer; aff, gh1 :bye end")
+//validCases("42: (ab, gh: integer); 3213: (1_ab, gd3h: byte)")
+// validCase("42: ab, gh: integer)")
+//validSameFields("af, gh :intger")
+//validIDs("4abc3, regg")
+//validKey("421f:")

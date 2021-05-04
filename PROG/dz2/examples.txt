@@ -1,0 +1,9 @@
+RIGTH:
+
+var fg :record 
+af, gh :integer; 
+aff, gh1: byte; 
+case saa of 
+ 	42: (ab, gh: integer); 
+ 	3213: (_ab, gd3h: byte) 
+end;

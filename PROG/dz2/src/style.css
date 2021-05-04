@@ -1,0 +1,28 @@
+#mainCard {
+    width: fit-content;
+    height: fit-content;
+    padding: 16px;
+    margin: 512px;
+    margin-top: 128px;
+}
+
+#buttonsDiv {
+    margin-top: 16px;
+}
+
+body {
+    background: url(background.jpg) repeat;
+}
+button {
+    margin: 4px;
+}
+th {
+    padding: 8px;
+}
+#checkBtn {
+    width: -webkit-fill-available;
+}
+textarea {
+    resize: none;
+    scroll-behavior: auto;
+}
