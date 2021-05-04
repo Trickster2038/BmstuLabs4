@@ -1,7 +1,8 @@
 // рекурсивный спуск
 // Бэкус-Наур
-// <запись> ::= var <идентификатор>:record <постоянные поля> <поля с вариантами> end;
-// <постоянные поля> ::= <поля одного типа>;
+// <запись> ::= var <идентификатор>:record <постоянные поля>; <поля с вариантами> end;
+//              |var <идентификатор>:record <постоянные поля> end;
+// <постоянные поля> ::= <поля одного типа>
 //                    |<поля одного типа>;<постоянные поля>
 // <поля с вариантами> ::= case <идентификатор> of <случаи>
 // <случаи> = <случай>|<случай>;<случаи>
@@ -93,82 +94,154 @@ function validKey(x) {
     return x
 }
 
-function validCase(x){
+function validCase(x) {
     let flag = 0
     x = x.trim()
     console.log("validingCase:" + x)
     x = validKey(x)
     x = x.trim()
-    if(x[0]==":"){
+    if (x[0] == ":") {
         flag++
         x = x.slice(1)
         x = x.trim()
-        if(x[0]=="("){
+        if (x[0] == "(") {
             flag++
             x = x.slice(1)
             x = x.trim()
             x = validSameFields(x)
             x = x.trim()
-            if(x[0]==")"){
+            if (x[0] == ")") {
                 flag++
                 x = x.slice(1)
                 x = x.trim()
             }
         }
     }
-    if(flag != 3){
+    if (flag != 3) {
         throw "Wrong Case"
     }
     return x
 }
 
-function validCases(x){
+function validCases(x) {
     x = x.trim()
     console.log("validingCases:" + x)
     x = validCase(x)
     x = x.trim()
-    if(x[0]==";"){
+    if (x[0] == ";") {
         x = x.slice(1)
         x = validCase(x)
-    } else{
+    } else {
         console.log("validingCases end")
     }
     x = x.trim()
     return x
 }
 
-function validSwitch(x){
+function validSwitchFields(x) {
     let flag = 0
     x = x.trim()
     console.log("validingSwitch:" + x)
-    if(x.slice(0,4)=="case"){
+    if (x.slice(0, 4) == "case") {
         flag++
         x = x.slice(4)
         x = validID(x)
         x = x.trim()
-        if(x.slice(0,2)=="of"){
+        if (x.slice(0, 2) == "of") {
             flag++
             x = x.slice(2)
             x = validCases(x)
         }
     }
-    if(flag != 2){
+    if (flag != 2) {
         throw "Wrong Switch"
     }
     x = x.trim()
     return x
 }
 
-var str1 = "_abc3, feff, ghh"
-str1 = validIDs(str1)
+function validStaticFields(x) {
+    let flag = false
+    x = x.trim()
+    console.log("validingStatic:" + x)
+    x = validSameFields(x)
+    if (x[0] == ";") {
+        x = x.slice(1)
+        x = x.trim()
+        if (x.slice(0, 4) != "case") {
+            flag = true
+            while (flag) {
+                flag = false
+                x = validSameFields(x)
+                if (x[0] == ";") {
+                    x = x.slice(1)
+                    x = x.trim()
+                    if (x.slice(0, 4) != "case") {
+                        flag = true
+                    }
+                }
+            }
+        }
+    }
+    return x
+}
+
+function validRecord(x){
+    let flag = 0
+    x = x.toLowerCase()
+    x = x.replace(/[\n\t]/g," ")
+    x = x.trim()
+    console.log("validingRecord:" + x)
+    if(x.slice(0,3)=="var"){
+        flag++
+        x = x.slice(3)
+        x = x.trim()
+        x = validID(x)
+        x = x.trim()
+        if(x.slice(0,7)==":record"){
+            flag++
+            x = x.slice(7)
+            x = x.trim()
+            x = validStaticFields(x)
+            x = x.trim()
+            if(x.slice(0,4)=="end;"){
+                flag++
+            } else {
+                x = validSwitchFields(x)
+                if(x.slice(0,4)=="end;"){
+                    flag++
+                }
+            }
+        }
+    }
+    if(flag!=3){
+        throw "Wrong Record"
+    }
+    return x
+}
+
+//var str1 = "_abc3, feff, ghh"
+//str1 = validIDs(str1)
 //validType("integer")
 //validSameFields("af, gh :integer")
 //validKey("421:")
 //validCase("42: (ab, gh: integer)")
 //validCases("42: (ab, gh: integer); 3213: (_ab, gd3h: byte)")
-validSwitch("case saa of 42: (ab, gh: integer); 3213: (_ab, gd3h: byte)")
+//validSwitch("case saa of 42: (ab, gh: integer); 3213: (_ab, gd3h: byte)")
+//validStaticFields("af, gh :integer; aff, gh1 :byte end;")
+//validRecord("var fg :record af, gh :integer; aff, gh1 :byte end;")
+
+validRecord("var fg :record af, gh :integer; aff, gh1: byte; \
+        case saa of 42: (ab, gh: integer); 3213: (_ab, gd3h: byte) end;")
+
 
 // ERROR TESTS
+
+//validRecord("var fg :record af, gh :integer; aff, gh1: byte; \
+// case saa of 42: (ab, gh: integer); 32f3: (_ab, gd3h: byte) end;")
+
+// validRecord("var fg :record af, gh :integer; aff, gh1 :byte nd;")
+//validStaticFields("af, gh :integer; aff, gh1 :bye end")
 //validCases("42: (ab, gh: integer); 3213: (1_ab, gd3h: byte)")
 // validCase("42: ab, gh: integer)")
 //validSameFields("af, gh :intger")
