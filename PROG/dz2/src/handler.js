@@ -122,14 +122,31 @@ function validCase(x){
     return x
 }
 
+function validCases(x){
+    x = x.trim()
+    console.log("validingCases:" + x)
+    x = validCase(x)
+    x = x.trim()
+    if(x[0]==";"){
+        x = x.slice(1)
+        x = validCase(x)
+    } else{
+        console.log("validingCases end")
+    }
+    x = x.trim()
+    return x
+}
+
 var str1 = "_abc3, feff, ghh"
 str1 = validIDs(str1)
-validType("integer")
-validSameFields("af, gh :integer")
-validKey("421:")
-validCase("42: (ab, gh: integer)")
+//validType("integer")
+//validSameFields("af, gh :integer")
+//validKey("421:")
+//validCase("42: (ab, gh: integer)")
+validCases("42: (ab, gh: integer); 3213: (_ab, gd3h: byte)")
 
 // ERROR TESTS
+//validCases("42: (ab, gh: integer); 3213: (1_ab, gd3h: byte)")
 // validCase("42: ab, gh: integer)")
 //validSameFields("af, gh :intger")
 //validIDs("4abc3, regg")
