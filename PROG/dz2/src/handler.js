@@ -16,16 +16,37 @@
 function validID(x){
     //var regex1 = /[ :;]{1,}/m 
     //flag = /^[_a-z]+[_a-z0-9]{0,}$/.test(tokens[0])
+    //console.log("validingID")
+    x = x.trim()
+    console.log("validingID:"+x)
     if(/[_a-z]$/.test(x[0])){
-        while(!(/[ :;]$/.test(x[0]))){
+        while((/[_a-z0-9]$/.test(x[0])) && x.length > 0){
             x = x.slice(1)
+            //console.log("loop")
         }
     } else {
         throw "Wrong ID"
     }
-    console.log(x)
+    x = x.trim()
     return x
 }
 
-validID("_abc3 feff ghh")
-validID("4abc3 regg")
+function validIDs(x){
+    //console.log("validingIDs")
+    x = x.trim()
+    console.log("validingIDs:"+x)
+    x = validID(x)
+    if(x[0] == ","){
+        x = x.slice(1)
+        x = validIDs(x)
+    } else {
+        // nothing?
+        console.log("validingIDs end")
+    }
+    return x
+}
+
+var str1 = "_abc3, feff, ghh"
+str1 = validIDs(str1)
+
+//validIDs("4abc3, regg")
