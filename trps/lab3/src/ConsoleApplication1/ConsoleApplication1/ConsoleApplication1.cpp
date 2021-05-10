@@ -37,7 +37,7 @@ int main()
 
 			printf("\n%s\n", "Input half-range of number >=N");
 			inputHr = scanf_s("%d", &halfRange);
-			if (inputHr == 1 && halfRange > 0 && halfRange >= N) {
+			if (inputHr == 1 && halfRange > 0 && halfRange*2 > N) {
 				
 				for (i = 0; i < N; i++) {
 					while (f == 0) {
